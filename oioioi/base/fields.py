@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.fields import BLANK_CHOICE_DASH, exceptions
 from django.utils.encoding import smart_text
+from django.utils.functional import curry
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 from django.forms import ValidationError
@@ -209,13 +210,19 @@ class EnumField(models.CharField):
                     'Invalid registry passed to EnumField.__init__: %r' % \
                     (registry,)
             kwargs['max_length'] = registry.max_length
-            kwargs['choices'] = self._generate_choices()
         self.registry = registry
         models.CharField.__init__(self, *args, **kwargs)
 
-    def _generate_choices(self):
+    def get_choices(self, include_blank=True, blank_choice=BLANK_CHOICE_DASH, limit_choices_to=None):
+        if include_blank:
+            yield (None, blank_choice)
         for item in self.registry.entries:
             yield item
+    flatchoices=property(get_choices)
+
+    def contribute_to_class(self, cls, name, virtual_only=False):
+        super(EnumField, self).contribute_to_class(cls, name, virtual_only)
+        setattr(cls, 'get_%s_display' % self.name, curry(cls._get_FIELD_display, field=self))
 
     def deconstruct(self):
         name, path, args, kwargs = super(EnumField, self).deconstruct()
