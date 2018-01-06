@@ -5,6 +5,7 @@ from django.contrib import admin as django_admin
 from django.views import i18n
 
 from oioioi.base import registration_backend
+from oioioi.base.utils import is_internal_app_name
 from oioioi.filetracker.views import raw_file_view
 
 django_admin.autodiscover()
@@ -28,7 +29,7 @@ if settings.DEBUG:
     ]
 
 for app in settings.INSTALLED_APPS:
-    if app.startswith('oioioi.'):
+    if is_internal_app_name(app):
         try:
             # Django imports views lazily, and sice there are some decorators
             # that have to run, all views need to be imported at startup

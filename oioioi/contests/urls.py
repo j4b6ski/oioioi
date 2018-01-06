@@ -3,6 +3,7 @@ from django.conf.urls import include, url
 from importlib import import_module
 
 from oioioi.contests import admin, views
+from oioioi.base.utils import is_internal_app_name
 
 
 def make_patterns(neutrals=None, contests=None, noncontests=None, globs=None):
@@ -131,7 +132,7 @@ neutral_patterns = [
 ]
 
 for app in settings.INSTALLED_APPS:
-    if app.startswith('oioioi.'):
+    if is_internal_app_name(app):
         try:
             urls_module = import_module(app + '.urls')
             if hasattr(urls_module, 'contest_patterns'):

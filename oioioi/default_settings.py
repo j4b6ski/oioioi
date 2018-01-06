@@ -513,3 +513,5 @@ NON_CONTEST_WEIGHT = 1000
 # Interval [in seconds] for mailnotifyd to wait before scanning the database
 # for new messages to notify about
 MAILNOTIFYD_INTERVAL = 60
+
+INTERNAL_APPS_PREFIXES = ['oioioi.']

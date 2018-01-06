@@ -11,6 +11,7 @@ import urllib
 from contextlib import contextmanager
 from importlib import import_module
 
+from django.conf import settings
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.forms.utils import flatatt
 from django.shortcuts import render
@@ -621,3 +622,9 @@ def find_closure(groups):
     for elem in parent.keys():
         new_groups.setdefault(find(elem), []).append(elem)
     return new_groups.values()
+
+def is_internal_app_name(app_name):
+    for prefix in settings.INTERNAL_APPS_PREFIXES:
+        if app_name.startswith(prefix):
+            return True
+    return False
