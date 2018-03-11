@@ -21,7 +21,6 @@ from oioioi.dashboard.registry import dashboard_registry, \
         dashboard_headers_registry
 from oioioi.dashboard.models import DashboardMessage
 from oioioi.dashboard.forms import DashboardMessageForm
-from oioioi.rankings.views import has_any_ranking_visible
 from oioioi.questions.views import messages_template_context, \
         visible_messages
 
@@ -36,13 +35,6 @@ top_links_registry.register('submit', _("Submit"),
             request.contest.id}),
         condition=has_any_submittable_problem,
         order=200)
-
-top_links_registry.register('ranking', _("Ranking"),
-        lambda request: reverse('default_ranking', kwargs={'contest_id':
-            request.contest.id}),
-        condition=has_any_ranking_visible,
-        order=300)
-
 
 @enforce_condition(contest_exists & is_contest_admin)
 def dashboard_message_edit_view(request):

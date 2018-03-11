@@ -188,7 +188,6 @@ INSTALLED_APPS = (
     'oioioi.programs',
     'oioioi.sinolpack',
     'oioioi.questions',
-    'oioioi.rankings',
     'oioioi.sioworkers',
     'oioioi.jotform',
     'oioioi.analytics',
