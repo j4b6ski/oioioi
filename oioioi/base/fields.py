@@ -43,6 +43,10 @@ class DottedNameField(models.CharField):
         # admin interface.
         self.choices = (('dummy', 'Dummy'),)
 
+    @property
+    def flatchoices(self):
+        return self.get_choices()
+
     # pylint: disable=W0102
     def get_choices(self, include_blank=True, blank_choice=BLANK_CHOICE_DASH,
                     limit_choices_to=None):
