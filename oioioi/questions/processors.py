@@ -17,13 +17,17 @@ def navbar_tip_processor(request):
         return {}
 
     def generator():
-        return make_navbar_badge(**navbar_messages_generator(request))
+        messages = navbar_messages_generator(request)
+        if not messages: return ''
+        return make_navbar_badge(**messages)
     return {'extra_navbar_right_messages': lazy(generator, unicode)()}
 
 
 @status_registry.register
 def get_messages(request, response):
-    response['messages'] = navbar_messages_generator(request)
+    messages = navbar_messages_generator(request)
+    if messages:
+        response['messages'] = messages
     return response
 
 
@@ -55,4 +59,4 @@ def navbar_messages_generator(request):
                                                            request.contest.id})
         return {'link': link, 'text': text, 'id': 'contest_new_messages'}
     else:
-        return {'link': None, 'text': None, 'id': 'contest_new_messages'}
+        return None
