@@ -81,6 +81,9 @@ class RoundTimes(object):
         else:
             return self.end
 
+    def is_hidden(self):
+        return False
+
 
 def generic_rounds_times(request=None, contest=None):
     if contest is None and not hasattr(request, 'contest'):
