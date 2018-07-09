@@ -5,7 +5,7 @@
 
 {% block navbar-menu %}
 <a class="oioioi-navbar__brand" href="{% url 'index' contest_id=None %}">{{ site_name }}</a>
-
+<div><a class="badge progress-bar-warning badge-warning" href="{% url 'blog' %}">NEW</a></div>
 <div class="oioioi-navbar__menu dropdown">
     {% include "ingredients/navbar-menu.html" %}
 </div>
