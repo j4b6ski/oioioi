@@ -11,6 +11,8 @@
 
 {% block content %}
     {% if not user.is_authenticated %}
+        {% block banner %}
+        {% endblock %}
         <h1>{% trans "Registration" %}</h1>
     {% else %}
         <h1>{% trans "Edit your profile" %}</h1>
