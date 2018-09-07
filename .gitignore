@@ -12,6 +12,9 @@
 /.vagrant/
 *.pyc
 *.kdev*
+*.po
+*.mo
+*initial.py
 *~
 vagrant.yml
 /test_log.txt

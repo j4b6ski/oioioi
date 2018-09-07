@@ -77,7 +77,6 @@ class OutputChecker(models.Model):
         verbose_name = _("output checker")
         verbose_name_plural = _("output checkers")
 
-
 class LibraryProblemData(models.Model):
     problem = models.OneToOneField(Problem)
     libname = models.CharField(max_length=30, verbose_name=_("libname"),
@@ -155,7 +154,7 @@ def _autocreate_model_submissions_for_problem_instance(sender, instance,
         ModelSolution.objects.recreate_model_submissions(instance)
 
 
-@receiver(post_save, sender=ModelSolution)
+#@receiver(post_save, sender=ModelSolution)
 def _autocreate_model_submissions_for_model_solutions(sender, instance,
         created, raw, **kwargs):
     if created and not raw:
@@ -179,7 +178,6 @@ class ProgramSubmission(Submission):
     source_file = FileField(upload_to=make_submission_filename)
     source_length = models.IntegerField(verbose_name=_("Source code length"),
                                         blank=True, null=True)
-
     def save(self, *args, **kwargs):
         if self.source_file:
             self.source_length = self.source_file.size
@@ -249,6 +247,8 @@ class TestReport(models.Model):
     test_time_limit = models.IntegerField(null=True, blank=True)
     test_max_score = models.IntegerField(null=True, blank=True)
 
+    isolate_meta = models.TextField(default=None, blank=True, null=True)
+    stderr = models.TextField(default=None, blank=True, null=True)
 
 class GroupReport(models.Model):
     submission_report = models.ForeignKey(SubmissionReport)

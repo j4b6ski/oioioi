@@ -258,6 +258,9 @@ def message_view(request, message_id):
             form = AddReplyForm(request, initial={
                     'topic': _("Re: ") + message.topic,
                 })
+            for k, v in form.fields.items():
+                print k, v.widget
+
     else:
         form = None
     if request.user.is_authenticated():

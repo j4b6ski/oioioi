@@ -1,10 +1,11 @@
 {% load i18n %}
 {% load runtimeformat %}
 
+{% with allow_test_comments=report.submission.problem_instance.contest.reportconfig.comment_visible %}
 <ul class="list-unstyled">
     {% for group in groups %}
         {% for test in group.tests %}
-            {% if test.comment and allow_test_comments or test.get_status_display != 'OK' and allow_download_out and test.test %}
+            {% if is_admin or test.comment and allow_test_comments or test.get_status_display != 'OK' and allow_download_out and test.test %}
             <li class="small text-muted">
                 <span>{{ test.test_name }}</span>
                 {% if allow_download_out and test.test %}
@@ -22,7 +23,7 @@
                         </a>
                     {% endif %}
                 {% endif %}
-                {% if allow_test_comments %}
+                {% if allow_test_comments or is_admin %}
                     <span>{{ test.comment }}</span>
                 {% endif %}
             </li>
@@ -30,6 +31,8 @@
         {% endfor %}
     {% endfor %}
 </ul>
+{% endwith %}
+
 {% if allow_download_out %}
     {% if all_outs_generated %}
         <a role="button" class="btn btn-default btn-sm"

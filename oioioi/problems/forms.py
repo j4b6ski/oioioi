@@ -43,7 +43,7 @@ class ProblemStatementConfigForm(forms.ModelForm):
         fields = '__all__'
         model = ProblemStatementConfig
         widgets = {
-            'visible': forms.RadioSelect()
+            'visible': forms.TextInput()
         }
 
 

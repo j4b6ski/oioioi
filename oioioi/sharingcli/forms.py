@@ -30,8 +30,7 @@ class RemoteProblemForm(ProblemUploadForm):
             if url.startswith(client.site_url):
                 break
         else:
-            raise forms.ValidationError(_("Only sites from the list below are "
-                                          "acceptable"))
+            raise forms.ValidationError("'%s'  %s"%(url, str([c.site_url for c in self.clients])))
 
         try:
             # pylint: disable=undefined-loop-variable
@@ -42,6 +41,7 @@ class RemoteProblemForm(ProblemUploadForm):
             self.cleaned_data['task_id'] = response['id']
             return url
         except urllib2.HTTPError, e:
+            raise forms.ValidationError('HTTP Error %s'%(str(e)))
             if e.code == 404:
                 raise forms.ValidationError(_("Not a task URL"))
             else:

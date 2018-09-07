@@ -1,25 +1,28 @@
 @import "scss/utility";
 
-$submission-blue: #bbbbff !default;
-$submission-blue-gradient-to: #ccccff !default;
-$submission-green: #bbeebb !default;
-$submission-green-gradient-to: #ccffcc !default;
-$submission-red: #ffbbbb !default;
-$submission-red-gradient-to: #ffcccc !default;
-$submission-yellow: #ffd894 !default;
-$submission-yellow-gradient-to: #ffe9a5 !default;
-$submission-grey: #e0eee0 !default;
-$submission-grey-gradient-to: #eeeeee !default;
-$submission-OK0: #ffffbb !default;
-$submission-OK0-gradient-to: #d0ffd0 !default;
-$submission-OK25: #eeffbb !default;
-$submission-OK25-gradient-to: #c0ffc0 !default;
-$submission-OK50: #ddffbb !default;
-$submission-OK50-gradient-to: #b8ffb8 !default;
-$submission-OK75: #ccffbb !default;
-$submission-OK75-gradient-to: #dfffdf !default;
-$submission-OK100: #bbeebb !default;
-$submission-OK100-gradient-to: #eeffee !default;
+$submission-black: #cfd8dc !default;
+$submission-black-gradient-to: #ffffff !default;
+$submission-blue: #bbdefb !default;
+$submission-blue-gradient-to: #eeffff !default;
+$submission-green: #c8e6c9 !default;
+$submission-green-gradient-to: #fbfffc !default;
+$submission-red: #ffcdd2 !default;
+$submission-red-gradient-to: #ffffff !default;
+$submission-yellow: #fff9c4 !default;
+$submission-yellow-gradient-to: #fffff7 !default;
+$submission-grey: #f5f5f5 !default;
+$submission-grey-gradient-to: #ffffff !default;
+
+$submission-OK0: #dcedc8 !default;
+$submission-OK0-gradient-to: #fffffb !default;
+$submission-OK25: #c5e1a5 !default;
+$submission-OK25-gradient-to: #f8ffd7 !default;
+$submission-OK50: #aed581 !default;
+$submission-OK50-gradient-to: #e1ffb1 !default;
+$submission-OK75: #9ccc65 !default;
+$submission-OK75-gradient-to: #cfff95 !default;
+$submission-OK100: #8bc34a !default;
+$submission-OK100-gradient-to: #bef67a !default;
 
 $submission-margin-min-width: 20px !default;
 
@@ -59,6 +62,9 @@ $submission-margin-min-width: 20px !default;
     @include submission($submission-blue, $submission-blue-gradient-to);
   }
 
+  &--NJ {
+    @include submission($submission-black, $submission-black-gradient-to);
+  }
   &--IGN {
     @include submission($submission-grey, $submission-grey-gradient-to);
   }

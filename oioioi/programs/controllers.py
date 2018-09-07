@@ -40,6 +40,9 @@ logger = logging.getLogger(__name__)
 class ProgrammingProblemController(ProblemController):
     description = _("Simple programming problem")
 
+    def get_allowed_languages_dict(self, problem_instance):
+        return settings.SUBMITTABLE_EXTENSIONS
+
     def generate_initial_evaluation_environ(self, environ, submission,
                                             **kwargs):
         problem_instance = submission.problem_instance
@@ -612,6 +615,8 @@ class ProgrammingProblemController(ProblemController):
 
 class ProgrammingContestController(ContestController):
     description = _("Simple programming contest")
+    def get_allowed_languages_dict(self, problem_instance):
+        return settings.SUBMITTABLE_EXTENSIONS
 
     def _map_report_to_submission_status(self, status, problem_instance,
                                          kind='INITIAL'):
@@ -833,3 +838,11 @@ class ProgrammingContestController(ContestController):
 
         return super(ProgrammingContestController, self) \
                 .valid_kinds_for_submission(submission)
+
+    def get_max_score(self, problem_instance):
+        groups = dict()
+
+        for test in problem_instance.test_set.filter(is_active = True):
+            groups[test.group] = test.max_score
+
+        return sum(groups.values())

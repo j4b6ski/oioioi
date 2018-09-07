@@ -148,7 +148,7 @@ MIDDLEWARE_CLASSES = (
     'oioioi.su.middleware.SuAuthenticationMiddleware',
     'oioioi.su.middleware.SuFirstTimeRedirectionMiddleware',
     'oioioi.base.middleware.UserInfoInErrorMessage',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'linaro_django_pagination.middleware.PaginationMiddleware',
     'oioioi.contests.middleware.CurrentContestMiddleware',
@@ -167,7 +167,7 @@ COMMON_MEDIA_PREFIX = 'common/'
 
 ROOT_URLCONF = 'oioioi.urls'
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -207,7 +207,7 @@ INSTALLED_APPS = (
     'registration',
     'django_nose',
     'django_extensions',
-    'debug_toolbar',
+#    'debug_toolbar',
     'compressor',
     'linaro_django_pagination',
     'mptt',

@@ -4,7 +4,8 @@ from django.utils.encoding import smart_text
 from django.utils.functional import curry
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
-from django.forms import ValidationError
+from django import forms
+from django.forms import ValidationError, Select
 from django.core.validators import RegexValidator
 
 
@@ -189,6 +190,8 @@ class EnumRegistry(object):
                 return desc
         return fallback
 
+class EnumWidget(forms.CharField):
+    widget = Select
 
 class EnumField(models.CharField):
     """A ``CharField`` designed to store a value from an extensible set.
@@ -215,13 +218,16 @@ class EnumField(models.CharField):
                     (registry,)
             kwargs['max_length'] = registry.max_length
         self.registry = registry
-        models.CharField.__init__(self, *args, **kwargs)
+        super(EnumField, self).__init__(*args, **kwargs)
 
     def get_choices(self, include_blank=True, blank_choice=BLANK_CHOICE_DASH, limit_choices_to=None):
+        choices = []
         if include_blank:
-            yield (None, blank_choice)
+            choices.append((None, blank_choice))
         for item in self.registry.entries:
-            yield item
+            choices.append(item)
+        return choices
+
     flatchoices=property(get_choices)
 
     def contribute_to_class(self, cls, name, virtual_only=False):
@@ -233,6 +239,10 @@ class EnumField(models.CharField):
         kwargs.pop('choices', None)
         return name, path, args, kwargs
 
+    def formfield(self, **kwargs):
+        defaults = {'form_class': EnumWidget}
+        defaults.update(kwargs)
+        return super(EnumField, self).formfield(**defaults)
 
 class PhoneNumberField(models.CharField):
     """A ``CharField`` designed to store phone numbers."""

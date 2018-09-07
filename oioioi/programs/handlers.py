@@ -165,6 +165,7 @@ def collect_tests(env, **kwargs):
         test_env['group'] = test.group or test.name
         test_env['max_score'] = test.max_score
         test_env['order'] = test.order
+        test_env['checker_mode'] = env.get('checker_mode')
         if test.time_limit:
             test_env['exec_time_limit'] = test.time_limit
         if test.memory_limit:
@@ -498,8 +499,12 @@ def make_report(env, kind='NORMAL', save_scores=True, **kwargs):
         test_report.score = result['score'] if save_scores else None
         test_report.status = result['status']
         test_report.time_used = result['time_used']
+        test_report.isolate_meta = result.get('isolate_meta', '{}')
+        sid = env['submission_id']
+        pi = Submission.objects.get(id=sid).problem_instance
+        test_report.stderr = result['stderr']
         comment = result.get('result_string', '')
-        if comment.lower() in ['ok', 'time limit exceeded']:  # Annoying
+        if comment.lower() in ['ok', 'time limit exceeded', 'not judged']:  # Annoying
             comment = ''
         test_report.comment = Truncator(comment).chars(TestReport.
                 _meta.get_field('comment').max_length)

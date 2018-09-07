@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from oioioi.questions import views
+from oioioi.questions import views, models
 
 
 contest_patterns = [

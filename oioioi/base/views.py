@@ -129,8 +129,7 @@ def translate_view(request):
 
 
 def delete_account_view(request):
-    if not request.user.is_authenticated():
-        return HttpResponseForbidden()
+    return HttpResponseForbidden()
 
     if request.POST:
         for participant in request.user.participant_set.all():

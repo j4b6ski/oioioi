@@ -91,9 +91,9 @@ class SchoolAdmin(admin.ModelAdmin):
                                        " schools into approved one")
 
 admin.site.register(School, SchoolAdmin)
-admin.system_admin_menu_registry.register('schools',
-    _("Schools"), lambda request:
-    reverse('oioioiadmin:oi_school_changelist'), order=20)
+#admin.system_admin_menu_registry.register('schools',
+#    _("Schools"), lambda request:
+#    reverse('oioioiadmin:oi_school_changelist'), order=20)
 
 
 class OIRegistrationInline(admin.StackedInline):

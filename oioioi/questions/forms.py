@@ -72,12 +72,11 @@ class AddReplyForm(AddContestMessageForm):
     save_template = forms.BooleanField(required=False,
                                        widget=forms.HiddenInput,
                                        label=_("Save as template"))
+    kind = forms.ChoiceField(required=True, choices=[c for c in message_kinds.entries if c[0] != 'QUESTION'])
 
     def __init__(self, *args, **kwargs):
         super(AddReplyForm, self).__init__(*args, **kwargs)
         del self.fields['category']
-        self.fields['kind'].choices = \
-                [c for c in message_kinds.entries if c[0] != 'QUESTION']
         narrow_input_field(self.fields['kind'])
 
     def save(self, commit=True, *args, **kwargs):

@@ -1,12 +1,12 @@
 {% load i18n %}
 
-{% if contest %}
+{% if contest or True %}
     {% if contest_exclusive %}
         <a href="#">{{ contest.name }}</a>
     {% else %}
-        <div class="dropdown {% if not user.is_anonymous and recent_contests and contest != recent_contests.0 %}open{% endif %}">
+        <div class="dropdown {#% if not user.is_anonymous and recent_contests and contest != recent_contests.0 %}open{% endif %#}">
             <a href="#" class="contest-picker dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <div class="contest-name">{{ contest.name }}</div> <div class="caret"></div>
+                <div class="contest-name">{{ contest.name|default:"Select contest" }}</div> <div class="caret"></div>
             </a>
             <ul class="dropdown-menu">
                 {% if recent_contests %}

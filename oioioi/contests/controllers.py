@@ -473,6 +473,8 @@ class ContestController(RegisteredSubclassesBase, ObjectWithMixins):
 
         if check_round_times:
             rtimes = self.get_round_times(request, problem_instance.round)
+            if rtimes.is_past(request.timestamp) and problem_instance.round.can_submit_after_end:
+                return True
             return rtimes.is_active(request.timestamp)
         else:
             return True

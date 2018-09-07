@@ -159,3 +159,4 @@ class IntegerScore(ScoreValue):
 
     def to_int(self):
         return self.value
+

@@ -1,5 +1,5 @@
 {% extends "base-with-menu.html" %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block title %}
 {% blocktrans with submission.id as id %}Submission {{ id }}{% endblocktrans %}
@@ -19,6 +19,11 @@
             });
         </script>
     {% endif %}
+{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link href="{% static "judgings/style.css" %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block main-content %}

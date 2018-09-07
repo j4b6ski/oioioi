@@ -97,7 +97,7 @@ class RoundInline(admin.StackedInline):
         fields = ['name', 'start_date', 'end_date', 'results_date',
                 'public_results_date', 'is_trial']
         fields_no_public_results = ['name', 'start_date', 'end_date',
-            'results_date', 'is_trial']
+            'results_date', 'is_trial', 'can_submit_after_end']
 
         if request.contest is not None and request.contest.controller\
                 .separate_public_results():
@@ -193,6 +193,11 @@ class ContestAdmin(admin.ModelAdmin):
                     request=request),
                 exclude=self.get_readonly_fields(request, obj))
 
+    def get_inline_instances(self, request, obj=None):
+        if obj and not request.GET.get('simple', False):
+            return super(ContestAdmin, self).get_inline_instances(request, obj)
+        return []
+
     def get_formsets(self, request, obj=None):
         if obj and not request.GET.get('simple', False):
             return super(ContestAdmin, self).get_formsets(request, obj)
@@ -246,7 +251,7 @@ contest_admin_menu_registry.register('contest_change', _("Settings"),
 
 class ProblemInstanceAdmin(admin.ModelAdmin):
     form = ProblemInstanceForm
-    fields = ('contest', 'round', 'problem', 'short_name', 'submissions_limit')
+    fields = ('contest', 'round', 'problem', 'short_name', 'submissions_limit', 'score_weight')
     list_display = ('name_link', 'short_name_link', 'round', 'package',
             'actions_field')
     readonly_fields = ('contest', 'problem')
@@ -463,7 +468,7 @@ class SubmissionAdmin(admin.ModelAdmin):
         list_display = ['id', 'user_login', 'user_full_name', 'date',
             'problem_instance_display', 'contest_display', 'status_display',
             'score_display']
-        if request.contest:
+        if request.contest and not request.GET.get('all', False):
             list_display.remove('contest_display')
         return list_display
 
@@ -631,7 +636,7 @@ class SubmissionAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         queryset = super(SubmissionAdmin, self).get_queryset(request)
-        if request.contest:
+        if request.contest and not request.GET.get('all', False):
             queryset = queryset \
                        .filter(problem_instance__contest=request.contest)
         queryset = queryset.order_by('-id')
@@ -672,7 +677,7 @@ contest_observer_menu_registry.register('submissions_admin', _("Submissions"),
 
 admin.system_admin_menu_registry.register('managesubmissions_admin',
         _("All submissions"), lambda request:
-        reverse('oioioiadmin:contests_submission_changelist',
+        '%s?all=1' % reverse('oioioiadmin:contests_submission_changelist',
                 kwargs={'contest_id': None}), order=50)
 
 

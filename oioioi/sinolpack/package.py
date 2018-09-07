@@ -31,8 +31,9 @@ from oioioi.filetracker.client import get_client
 from oioioi.sioworkers.jobs import run_sioworkers_job, run_sioworkers_jobs
 
 logger = logging.getLogger(__name__)
+logger.info('Debugging sinolpack')
 
-DEFAULT_TIME_LIMIT = 10000
+DEFAULT_TIME_LIMIT = 3000
 DEFAULT_MEMORY_LIMIT = 66000
 TASK_PRIORITY = 500
 C_EXTRA_ARGS = ['-Wall', '-Wno-unused-result', '-Werror']
@@ -177,7 +178,7 @@ class SinolPackage(object):
             renv = {}
             if not cwd:
                 cwd = self.rootdir
-            renv['stdout'] = execute('make %s' % (command), cwd=cwd)
+            renv['stdout'] = execute('ulimit -s unlimited; make %s' % (command), cwd=cwd)
             logger.info(renv['stdout'])
         return renv
 
@@ -252,19 +253,20 @@ class SinolPackage(object):
                                           'output': compilation_message})
 
     def _make_ins(self, re_string):
-        env = self._find_and_compile('ingen')
-        if env and not self.use_make:
-            env['job_type'] = 'ingen'
-            env['task_priority'] = TASK_PRIORITY
-            env['exe_file'] = env['compiled_file']
-            env['re_string'] = re_string
-            env['use_sandboxes'] = self.use_sandboxes
-            env['collected_files_path'] = \
-                _make_filename_in_job_dir(self.env, 'in')
+        if not self.use_make:
+            env = self._find_and_compile('ingen')
+            if env:
+                env['job_type'] = 'ingen'
+                env['task_priority'] = TASK_PRIORITY
+                env['exe_file'] = env['compiled_file']
+                env['re_string'] = re_string
+                env['use_sandboxes'] = self.use_sandboxes
+                env['collected_files_path'] = \
+                    _make_filename_in_job_dir(self.env, 'in')
 
-            renv = run_sioworkers_job(env)
-            get_client().delete_file(env['compiled_file'])
-            return renv['collected_files']
+                renv = run_sioworkers_job(env)
+                get_client().delete_file(env['compiled_file'])
+                return renv['collected_files']
 
         return {}
 
@@ -519,7 +521,7 @@ class SinolPackage(object):
         execute(['tar', '-C', docdir, '-kzxf', sinol_cls_tgz], cwd=docdir)
 
         try:
-            execute('make', cwd=docdir)
+            execute('ulimit -s unlimited; make', cwd=docdir)
         except ExecuteError:
             logger.warning("%s: failed to compile statement", self.filename,
                     exc_info=True)
@@ -531,6 +533,7 @@ class SinolPackage(object):
         self.statement_memory_limit = self._detect_statement_memory_limit()
 
         if self.use_make:
+            self._find_and_compile('', command='ingen')
             self._find_and_compile('', command='outgen')
 
         created_tests, outs_to_make, scored_groups = \
@@ -844,7 +847,7 @@ class SinolPackage(object):
            and sets scores according to that
            or assigns them automatically otherwise.
         """
-        group_scores_from_config = self.config.get('scores', {})
+        group_scores_from_config = self.config.get('points', {})
         if group_scores_from_config:
             self._check_scores_from_config(scored_groups,
                                            group_scores_from_config)

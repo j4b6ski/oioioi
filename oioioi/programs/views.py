@@ -350,7 +350,7 @@ def generate_user_output_view(request, testreport_id=None,
     s_id = submission_report.submission.id
     submission = get_submission_or_error(request, s_id,
                                          submission_class=ProgramSubmission)
-    if test_ids:
+    if not test_ids or True:
         # Note that submission comment should not be copied to re-submission!
         # It will be overwritten in handler anyway.
         resubmission = ProgramSubmission(problem_instance=submission.
@@ -363,6 +363,7 @@ def generate_user_output_view(request, testreport_id=None,
         resubmission.problem_instance.controller.judge(resubmission,
                 extra_args={'tests_subset': test_ids,
                             'submission_report_id': submission_report.id})
-
+    else:
+        raise RuntimeError(test_ids)
     return redirect('submission', contest_id=request.contest.id,
-                    submission_id=submission.id)
+                    submission_id=resubmission.id)

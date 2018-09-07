@@ -3,7 +3,7 @@ from operator import itemgetter
 
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.http import JsonResponse
 
 from oioioi.base.permissions import enforce_condition, is_superuser
@@ -73,7 +73,7 @@ def show_info_about_workers(request):
     return render(request, 'workers/list_workers.html', context)
 
 
-@enforce_condition(is_superuser)
+#@enforce_condition(is_superuser)
 def get_load_json(request):
     data = get_info_about_workers()
     capacity = 0

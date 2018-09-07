@@ -20,6 +20,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
-urlpatterns += [
+noncontest_patterns = [
     url(r'^$', main_page_view, name='index'),
 ]

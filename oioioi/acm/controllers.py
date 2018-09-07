@@ -12,8 +12,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_noop, ugettext_lazy as _
 
 from oioioi.programs.controllers import ProgrammingContestController
-from oioioi.rankings.controllers import DefaultRankingController, \
-        CONTEST_RANKING_KEY
+#from oioioi.rankings.controllers import DefaultRankingController, \
+#        CONTEST_RANKING_KEY
 from oioioi.contests.models import SubmissionReport, Submission, \
         ProblemInstance, UserResultForProblem
 from oioioi.acm.score import BinaryScore, format_time, ACMScore
@@ -160,8 +160,8 @@ class ACMContestController(ProgrammingContestController):
     def render_submission_date(self, submission):
         return format_time(self.get_submission_relative_time(submission))
 
-    def ranking_controller(self):
-        return ACMRankingController(self.contest)
+#    def ranking_controller(self):
+#        return ACMRankingController(self.contest)
 
     def can_see_round(self, request_or_context, round):
         context = self.make_context(request_or_context)
@@ -208,118 +208,118 @@ class _FakeUserResultForProblem(object):
         return str(self.__dict__)
 
 
-class ACMRankingController(DefaultRankingController):
-    description = _("ACM style ranking")
-
-    def _iter_rounds(self, can_see_all, timestamp, partial_key, request=None):
-        ccontroller = self.contest.controller
-        queryset = self.contest.round_set.all()
-        if partial_key != CONTEST_RANKING_KEY:
-            queryset = queryset.filter(id=partial_key)
-        for round in queryset:
-            times = ccontroller.get_round_times(request, round)
-            if can_see_all or not times.is_future(timestamp):
-                yield round
-
-    def can_search_for_users(self):
-        return False
-
-    def _render_ranking_page(self, key, data, page):
-        request = self._fake_request(page)
-        data['is_admin'] = self.is_admin_key(key)
-        return render_to_string('acm/acm_ranking.html',
-                context_instance=RequestContext(request, data))
-
-    def _get_csv_header(self, key, data):
-        header = [_("#"), _("Username"), _("First name"), _("Last name"),
-                  _("Solved")]
-        for pi, _statement_visible in data['problem_instances']:
-            header.append(pi.get_short_name_display())
-        header.append(_("Sum"))
-        return header
-
-    def _get_csv_row(self, key, row):
-        line = [row['place'], row['user'].username, row['user'].first_name,
-                row['user'].last_name]
-        line.append(row['sum'].problems_solved)
-        line += [r.score.csv_repr() if r and r.score is not None else ''
-                 for r in row['results']]
-        line.append(row['sum'].total_time_repr())
-        return line
-
-    def filter_users_for_ranking(self, key, queryset):
-        return self.contest.controller.registration_controller() \
-            .filter_participants(queryset)
-
-    def _get_old_results(self, freeze_time, pis, users):
-        controller = self.contest.controller
-        submissions = Submission.objects \
-                .filter(problem_instance__in=pis, user__in=users,
-                     kind='NORMAL', date__lt=freeze_time) \
-                .exclude(status__in=IGNORED_STATUSES) \
-                .select_related('user', 'problem_instance') \
-                .order_by('user', 'problem_instance', 'date')
-        results = []
-        for user, user_submissions in \
-                itertools.groupby(submissions, attrgetter('user')):
-            for pi, user_pi_submissions in itertools.groupby(user_submissions,
-                    attrgetter('problem_instance')):
-                result = _FakeUserResultForProblem(user, pi)
-                controller._fill_user_result_for_problem(result,
-                    user_pi_submissions)
-                results.append(result)
-        return results
-
-    def serialize_ranking(self, key):
-        controller = self.contest.controller
-        rounds = list(self._rounds_for_key(key))
-        # If at least one visible round is not trial we don't want to show
-        # trial rounds in default ranking.
-        if self.get_partial_key(key) == CONTEST_RANKING_KEY:
-            not_trial = [r for r in rounds if not r.is_trial]
-            if not_trial:
-                rounds = not_trial
-
-        freeze_times = [controller.get_round_freeze_time(round)
-                        for round in rounds]
-
-        pis = list(ProblemInstance.objects.filter(round__in=rounds)
-                .select_related('problem').prefetch_related('round'))
-        rtopis = defaultdict(lambda: [])
-
-        for pi in pis:
-            rtopis[pi.round].append(pi)
-
-        users = self.filter_users_for_ranking(key, User.objects.all())
-
-        results = []
-        ccontroller = self.contest.controller
-
-        frozen = False
-        for round, freeze_time in zip(rounds, freeze_times):
-            rpis = rtopis[round]
-            rtimes = ccontroller.get_round_times(None, round)
-            now = timezone.now()
-            if freeze_time is None or \
-                    self.is_admin_key(key) or \
-                    rtimes.results_visible(now) or \
-                    now <= freeze_time:
-                results += UserResultForProblem.objects \
-                    .filter(problem_instance__in=rpis, user__in=users) \
-                    .prefetch_related('problem_instance__round') \
-                    .select_related('submission_report', 'problem_instance',
-                            'problem_instance__contest')
-            else:
-                results += self._get_old_results(freeze_time, rpis, users)
-                frozen = True
-
-        data = self._get_users_results(pis, results, rounds, users)
-        self._assign_places(data, itemgetter('sum'))
-        return {'rows': data,
-                'problem_instances': self._get_pis_with_visibility(key, pis),
-                'frozen': frozen,
-                'participants_on_page': getattr(settings,
-                    'PARTICIPANTS_ON_PAGE', 100)}
+#class ACMRankingController(DefaultRankingController):
+#    description = _("ACM style ranking")
+#
+#    def _iter_rounds(self, can_see_all, timestamp, partial_key, request=None):
+#        ccontroller = self.contest.controller
+#        queryset = self.contest.round_set.all()
+#        if partial_key != CONTEST_RANKING_KEY:
+#            queryset = queryset.filter(id=partial_key)
+#        for round in queryset:
+#            times = ccontroller.get_round_times(request, round)
+#            if can_see_all or not times.is_future(timestamp):
+#                yield round
+#
+#    def can_search_for_users(self):
+#        return False
+#
+#    def _render_ranking_page(self, key, data, page):
+#        request = self._fake_request(page)
+#        data['is_admin'] = self.is_admin_key(key)
+#        return render_to_string('acm/acm_ranking.html',
+#                context_instance=RequestContext(request, data))
+#
+#    def _get_csv_header(self, key, data):
+#        header = [_("#"), _("Username"), _("First name"), _("Last name"),
+#                  _("Solved")]
+#        for pi, _statement_visible in data['problem_instances']:
+#            header.append(pi.get_short_name_display())
+#        header.append(_("Sum"))
+#        return header
+#
+#    def _get_csv_row(self, key, row):
+#        line = [row['place'], row['user'].username, row['user'].first_name,
+#                row['user'].last_name]
+#        line.append(row['sum'].problems_solved)
+#        line += [r.score.csv_repr() if r and r.score is not None else ''
+#                 for r in row['results']]
+#        line.append(row['sum'].total_time_repr())
+#        return line
+#
+#    def filter_users_for_ranking(self, key, queryset):
+#        return self.contest.controller.registration_controller() \
+#            .filter_participants(queryset)
+#
+#    def _get_old_results(self, freeze_time, pis, users):
+#        controller = self.contest.controller
+#        submissions = Submission.objects \
+#                .filter(problem_instance__in=pis, user__in=users,
+#                     kind='NORMAL', date__lt=freeze_time) \
+#                .exclude(status__in=IGNORED_STATUSES) \
+#                .select_related('user', 'problem_instance') \
+#                .order_by('user', 'problem_instance', 'date')
+#        results = []
+#        for user, user_submissions in \
+#                itertools.groupby(submissions, attrgetter('user')):
+#            for pi, user_pi_submissions in itertools.groupby(user_submissions,
+#                    attrgetter('problem_instance')):
+#                result = _FakeUserResultForProblem(user, pi)
+#                controller._fill_user_result_for_problem(result,
+#                    user_pi_submissions)
+#                results.append(result)
+#        return results
+#
+#    def serialize_ranking(self, key):
+#        controller = self.contest.controller
+#        rounds = list(self._rounds_for_key(key))
+#        # If at least one visible round is not trial we don't want to show
+#        # trial rounds in default ranking.
+#        if self.get_partial_key(key) == CONTEST_RANKING_KEY:
+#            not_trial = [r for r in rounds if not r.is_trial]
+#            if not_trial:
+#                rounds = not_trial
+#
+#        freeze_times = [controller.get_round_freeze_time(round)
+#                        for round in rounds]
+#
+#        pis = list(ProblemInstance.objects.filter(round__in=rounds)
+#                .select_related('problem').prefetch_related('round'))
+#        rtopis = defaultdict(lambda: [])
+#
+#        for pi in pis:
+#            rtopis[pi.round].append(pi)
+#
+#        users = self.filter_users_for_ranking(key, User.objects.all())
+#
+#        results = []
+#        ccontroller = self.contest.controller
+#
+#        frozen = False
+#        for round, freeze_time in zip(rounds, freeze_times):
+#            rpis = rtopis[round]
+#            rtimes = ccontroller.get_round_times(None, round)
+#            now = timezone.now()
+#            if freeze_time is None or \
+#                    self.is_admin_key(key) or \
+#                    rtimes.results_visible(now) or \
+#                    now <= freeze_time:
+#                results += UserResultForProblem.objects \
+#                    .filter(problem_instance__in=rpis, user__in=users) \
+#                    .prefetch_related('problem_instance__round') \
+#                    .select_related('submission_report', 'problem_instance',
+#                            'problem_instance__contest')
+#            else:
+#                results += self._get_old_results(freeze_time, rpis, users)
+#                frozen = True
+#
+#        data = self._get_users_results(pis, results, rounds, users)
+#        self._assign_places(data, itemgetter('sum'))
+#        return {'rows': data,
+#                'problem_instances': self._get_pis_with_visibility(key, pis),
+#                'frozen': frozen,
+#                'participants_on_page': getattr(settings,
+#                    'PARTICIPANTS_ON_PAGE', 100)}
 
 
 class NotificationsMixinForACMContestController(object):
