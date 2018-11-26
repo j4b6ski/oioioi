@@ -107,7 +107,6 @@ setup(
     dependency_links=[
         'http://github.com/sioworkers/zipball/master#egg=sioworkers-0.92',
         'http://github.com/sio2project/filetracker/zipball/master#egg=filetracker-1.1.0',
-        'http://github.com/mitsuhiko/werkzeug/zipball/master#egg=Werkzeug-dev-0.14',
         'http://github.com/sio2project/linaro-django-pagination/zipball/master#egg=linaro-django-pagination-2.0.2',
     ],
 
