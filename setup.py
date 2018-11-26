@@ -30,7 +30,7 @@ setup(
     author_email='sio2@sio2project.mimuw.edu.pl',
     url='http://sio2project.mimuw.edu.pl',
     install_requires=[
-        "Django>=1.9,<1.10",
+        "Django==1.9.13",
         "pytz>=2013b",
         "sqlalchemy",
         "BeautifulSoup",
@@ -45,15 +45,15 @@ setup(
         "Celery>=3.1.15,<4.0.0",
         "django-celery>=3.1.15,<=3.1.17",
         "django-supervisor",
-        "linaro-django-pagination",
+        "linaro-django-pagination==2.0.2",
         "django-compressor==2.2",
         "django-overextends>=0.4.1",
         "pygments",
         "django-libsass>=0.7",
 
-        "django-debug-toolbar>=1.4",
+        "django-debug-toolbar==1.9.1",
         "django-extensions>=1.0.0",
-        "werkzeug",
+        "werkzeug==0.14",
 
         "nose >= 1.3",
 
@@ -79,7 +79,7 @@ setup(
 
         "django-gravatar2",
 
-        "django-mptt>=0.8.7",
+        "django-mptt==0.9.0",
 
         "mistune",
 
@@ -105,10 +105,10 @@ setup(
     # $ pip install -r requirements.txt
     #
     dependency_links=[
-        'http://github.com/sio2project/sioworkers/zipball/master#egg=sioworkers-1.3',
+        'http://github.com/sio2project/sioworkers/zipball/master#egg=sioworkers-0.92',
         'http://github.com/sio2project/filetracker/zipball/master#egg=filetracker-1.1.0',
-        'http://github.com/mitsuhiko/werkzeug/zipball/master#egg=Werkzeug-dev',
-        'http://github.com/sio2project/linaro-django-pagination/zipball/master#egg=linaro-django-pagination',
+        'http://github.com/mitsuhiko/werkzeug/zipball/master#egg=Werkzeug-dev-0.14',
+        'http://github.com/sio2project/linaro-django-pagination/zipball/master#egg=linaro-django-pagination-2.0.2',
     ],
 
     entry_points={
