@@ -91,6 +91,7 @@ setup(
         # https://github.com/celery/librabbitmq/issues/42
         "librabbitmq>=1.5.1",
 
+	"filetracker==1.1.0",
         "raven",
 
         # Dependencies from external sources live in requirements.txt
@@ -105,7 +106,6 @@ setup(
     # $ pip install -r requirements.txt
     #
     dependency_links=[
-        'http://github.com/sio2project/filetracker/zipball/master#egg=filetracker-1.1.0',
         'http://github.com/sio2project/linaro-django-pagination/zipball/master#egg=linaro-django-pagination-2.0.2',
     ],
 
