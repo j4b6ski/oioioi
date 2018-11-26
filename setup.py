@@ -53,7 +53,7 @@ setup(
 
         "django-debug-toolbar==1.9.1",
         "django-extensions>=1.0.0",
-        "werkzeug==0.14",
+        "werkzeug>=0.14",
 
         "nose >= 1.3",
 
@@ -105,7 +105,6 @@ setup(
     # $ pip install -r requirements.txt
     #
     dependency_links=[
-        'http://github.com/sioworkers/zipball/master#egg=sioworkers-0.92',
         'http://github.com/sio2project/filetracker/zipball/master#egg=filetracker-1.1.0',
         'http://github.com/sio2project/linaro-django-pagination/zipball/master#egg=linaro-django-pagination-2.0.2',
     ],
