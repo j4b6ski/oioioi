@@ -79,13 +79,13 @@ LANGUAGE_CODE = 'en'
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/vol/sio2/deployment/media'
+MEDIA_ROOT = '/home/sio/deployment/media'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/vol/sio2/deployment/static'
+STATIC_ROOT = '/home/sio/deployment/static'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '00000000-0000-0000-0000-000000000000'
@@ -140,7 +140,7 @@ FILETRACKER_URL = 'http://IPHERE:9999'
 
 # When using a remote_storage_factory it's necessary to specify a cache
 # directory in which a necessary files will be stored.
-#FILETRACKER_CACHE_ROOT = '/vol/sio2/deployment/cache'
+#FILETRACKER_CACHE_ROOT = '/home/sio/deployment/cache'
 
 # When using a remote storage it's recommended to enable a cache cleaner deamon
 # which will periodically scan cache directory and remove files what aren't
@@ -159,7 +159,7 @@ FILETRACKER_CACHE_SIZE = '1G'
 LOGGING['handlers']['zeus_file'] = {
     'level': 'INFO',
     'class': 'logging.handlers.RotatingFileHandler',
-    'filename': '/vol/sio2/deployment/logs/zeus.log',
+    'filename': '/home/sio/deployment/logs/zeus.log',
     'maxBytes': 1024 * 1024 * 5, # 50 MB same as default in supervisord
     'backupCount': 10, # same as in supervisord
     'formatter': 'date_and_level',
@@ -480,7 +480,7 @@ PROBLEM_PACKAGE_BACKENDS = ['staszic.sinol2pack.package.Sinol2PackageBackend'] +
 
 GOOGLE_RECAPTCHA_SECRET_KEY = ''
 
-LOCALE_PATHS = ["/vol/sio2/staszic/locale", "/vol/sio2/oioioi/oioioi/locale"]
+LOCALE_PATHS = ["/home/sio/staszic/locale", "/home/sio/oioioi/oioioi/locale"]
 
 FEEDBACK_SERVER_PORT = 7899
 
