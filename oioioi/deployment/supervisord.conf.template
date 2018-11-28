@@ -122,6 +122,12 @@ redirect_stderr=true
 stdout_logfile={{ PROJECT_DIR }}/logs/oioioiworker.log
 {% if not settings.RUN_LOCAL_WORKERS %}exclude=true{% endif %}
 
+[program:feedbackd]
+command={{ PYTHON }} {{ PROJECT_DIR }}/manage.py run_feedback_server
+startretries=0
+redirect_stderr=true
+stdout_logfile={{ PROJECT_DIR }}/logs/feedbackd.log
+
 [program:autoreload]
 # Comment this out to enable auto-reloading when code changes.
 exclude=true
