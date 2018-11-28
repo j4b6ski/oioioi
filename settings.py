@@ -65,7 +65,7 @@ DATABASES = {
 }
 
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['IPHERE']
+ALLOWED_HOSTS = [os.environ['IP']]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -136,7 +136,7 @@ FILETRACKER_LISTEN_PORT = 9999
 # When using distributed workers set this to url on which workers will be
 # able to access filetracker server. When 'remote_storage_factory' is used,
 # this also defines the filetracker server oioioi should connect to.
-FILETRACKER_URL = 'http://IPHERE:9999'
+FILETRACKER_URL = 'http://'+os.environ['IP']+':9999'
 
 # When using a remote_storage_factory it's necessary to specify a cache
 # directory in which a necessary files will be stored.
@@ -178,7 +178,7 @@ SIOWORKERS_LISTEN_PORT = 7890
 # URL to which should respond sioworkersd, when it has finished its job
 # When set to None the default url will be created using the pattern
 # http://$SIOWORKERS_LISTEN_ADDR:$SIOWORKERS_LISTEN_PORT
-SIOWORKERS_LISTEN_URL = "http://IPHERE:7890"
+SIOWORKERS_LISTEN_URL = "http://"+os.environ['IP']+":7890"
 
 # Set this to false if you don't need sioworkersd instance (e. g.
 # because you use instance started by another instance of OIOIOI)
