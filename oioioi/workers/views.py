@@ -26,7 +26,6 @@ def del_worker(l):
     for i in l:
         server.forget_worker(i)
 
-
 @enforce_condition(is_superuser)
 def show_info_about_workers(request):
     readonly = False
@@ -87,6 +86,12 @@ def get_load_json(request):
             load += len(i['tasks'])
     return JsonResponse({'capacity': capacity, 'load': load})
 
+def get_queue_json(request):
+    q = server.get_queue()
+    tasks = sum([x[1] for x in q[0][1]], [])
+    return JsonResponse({
+        'len': len(tasks),
+        'time': sum([t.get('env', {}).get('exec_time_limit', 0) for t in tasks])/1000})
 
 system_admin_menu_registry.register('workers_management_admin',
         _("Manage workers"), lambda request:
