@@ -45,6 +45,7 @@ def main_page_view(request):
 def select_contest_view(request):
     contests = visible_contests(request)
     contests = sorted(contests, key=lambda x: x.creation_date, reverse=True)
+    return redirect('contests-tree')
     return TemplateResponse(request, 'contests/select_contest.html',
             {'contests': contests})
 
