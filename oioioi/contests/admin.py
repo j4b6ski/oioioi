@@ -290,6 +290,10 @@ class ProblemInstanceAdmin(admin.ModelAdmin):
         return reverse('reset_tests_limits_for_probleminstance',
                        args=(instance.id,))
 
+    def _reload_limits_from_config_href(self, instance):
+        return reverse('reload_tests_limits_for_probleminstance',
+                       kwargs=({'problem_instance_id': instance.id}))
+
     def _reattach_problem_href(self, instance):
         return reverse('reattach_problem_contest_list', args=(instance.id,))
 
@@ -304,12 +308,14 @@ class ProblemInstanceAdmin(admin.ModelAdmin):
         assert ProblemSite.objects.filter(problem=instance.problem).exists()
         site_href = self._problem_site_href(instance)
         limits_href = self._reset_limits_href(instance)
+        config_limits_href = self._reload_limits_from_config_href(instance)
         reattach_href = self._reattach_problem_href(instance)
         result = [
             (move_href, self.probleminstance_change_link_name()),
             (models_href, _("Model solutions")),
             (site_href, _("Problem site")),
             (limits_href, _("Reset tests limits")),
+            (config_limits_href, _("Reload limits from config")),
             (reattach_href, _("Attach to another contest"))
         ]
         problem_count = len(ProblemInstance.objects.filter(
