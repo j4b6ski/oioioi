@@ -92,16 +92,16 @@ class AddReplyForm(AddContestMessageForm):
 
 class ChangeContestMessageForm(AddContestMessageForm):
     class Meta(AddContestMessageForm.Meta):
-        fields = ['category', 'kind', 'topic', 'content', 'pub_date']
+        fields = ['category', 'topic', 'content', 'pub_date']
 
     def __init__(self, kind, *args, **kwargs):
         super(ChangeContestMessageForm, self).__init__(*args, **kwargs)
-        if kind == 'QUESTION':
-            self.fields['kind'].choices = \
-                [c for c in message_kinds.entries if c[0] == 'QUESTION']
-        else:
-            self.fields['kind'].choices = \
-                [c for c in message_kinds.entries if c[0] != 'QUESTION']
+        #if kind == 'QUESTION':
+        #    self.fields['kind'].choices = \
+        #        [c for c in message_kinds.entries if c[0] == 'QUESTION']
+        #else:
+        #    self.fields['kind'].choices = \
+        #        [c for c in message_kinds.entries if c[0] != 'QUESTION']
 
 
 class FilterMessageForm(forms.Form):
