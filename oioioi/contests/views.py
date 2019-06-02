@@ -33,7 +33,8 @@ from oioioi.problems.models import ProblemStatement, ProblemAttachment
 from oioioi.problems.utils import query_statement, query_zip, \
         can_admin_problem_instance, update_tests_from_main_pi, \
         get_new_problem_instance
-
+from staszic.antiddos import policy
+from staszic.antiddos.views import blocked_view
 
 @register_main_page_view(order=900)
 def main_page_view(request):
@@ -166,6 +167,8 @@ def submit_view(request):
     if request.method == 'POST':
         form = SubmissionForm(request, request.POST, request.FILES)
         if form.is_valid():
+            if not policy.can_submit(request.user):
+                return redirect('blocked_submission')
             request.contest.controller.create_submission(request,
                     form.cleaned_data['problem_instance'], form.cleaned_data)
             return redirect('my_submissions', contest_id=request.contest.id)
