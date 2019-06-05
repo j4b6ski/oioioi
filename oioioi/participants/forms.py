@@ -13,7 +13,7 @@ class ParticipantForm(forms.ModelForm):
         fields = '__all__'
         model = Participant
 
-    user = ModelChoiceField(queryset=User.objects.filter().order_by('username'), widget=FilteredSelect)
+    user = ModelChoiceField(queryset=User.objects.filter(is_active=True).order_by('username'), widget=FilteredSelect)
 
     def clean_user(self):
         if Participant.objects.filter(contest=self.request_contest,
