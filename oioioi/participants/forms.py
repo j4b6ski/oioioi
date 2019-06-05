@@ -3,12 +3,17 @@ from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from oioioi.participants.models import Participant, OpenRegistration, Region
 from oioioi.contests.models import Round
+from django.contrib.auth.models import User
+from staszic.filteredselect.forms import FilteredSelect
+from django.forms import ModelChoiceField
 
 
 class ParticipantForm(forms.ModelForm):
     class Meta(object):
         fields = '__all__'
         model = Participant
+
+    user = ModelChoiceField(queryset=User.objects.filter().order_by('username'), widget=FilteredSelect)
 
     def clean_user(self):
         if Participant.objects.filter(contest=self.request_contest,
