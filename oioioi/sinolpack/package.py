@@ -842,12 +842,18 @@ class SinolPackage(object):
 
         return scores
 
+    def fix_str_test_ids(self, dictionary):
+        return {k if isinstance(k, int) else int(k): v for k, v in dictionary.items()}
+
+
     def _assign_scores(self, scored_groups, total_score_if_auto):
         """Checks if there's a ``scores`` entry in config
            and sets scores according to that
            or assigns them automatically otherwise.
         """
-        group_scores_from_config = self.config.get('points', {})
+
+        group_scores_from_config = self.fix_str_test_ids(self.config.get('points', {}))
+
         if 0 in group_scores_from_config:
             group_scores_from_config.pop(0)
 
