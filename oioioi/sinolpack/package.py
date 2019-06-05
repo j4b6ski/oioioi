@@ -848,6 +848,9 @@ class SinolPackage(object):
            or assigns them automatically otherwise.
         """
         group_scores_from_config = self.config.get('points', {})
+        if 0 in group_scores_from_config:
+            group_scores_from_config.pop(0)
+
         if group_scores_from_config:
             self._check_scores_from_config(scored_groups,
                                            group_scores_from_config)
