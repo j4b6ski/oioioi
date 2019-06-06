@@ -13,6 +13,7 @@ from oioioi.base.utils.validators import ValidationError
 from oioioi.base.utils.user import USERNAME_REGEX
 from oioioi.base.preferences import PreferencesSaved
 from django.conf import settings
+from django.utils.safestring import mark_safe
 
 def adjust_username_field(form):
     help_text = \
@@ -34,7 +35,7 @@ class RegistrationFormWithNames(RegistrationForm):
             ('last_name', forms.CharField(label=_("Last name")))
         ]
         if getattr(settings, 'RODO', False):
-            fields.append(('rodo', forms.BooleanField(required=True, label=getattr(settings, 'RODO_TEXT', ''))))
+            fields.append(('rodo', forms.BooleanField(required=True, label=mark_safe(getattr(settings, 'RODO_TEXT', '')))))
         self.fields = OrderedDict(fields)
 
 
