@@ -12,7 +12,7 @@ from registration.forms import RegistrationForm
 from oioioi.base.utils.validators import ValidationError
 from oioioi.base.utils.user import USERNAME_REGEX
 from oioioi.base.preferences import PreferencesSaved
-
+from django.conf import settings
 
 def adjust_username_field(form):
     help_text = \
@@ -33,6 +33,8 @@ class RegistrationFormWithNames(RegistrationForm):
             ('first_name', forms.CharField(label=_("First name"))),
             ('last_name', forms.CharField(label=_("Last name")))
         ]
+        if getattr(settings, 'RODO', False):
+            fields.append(('rodo', forms.BooleanField(required=True, label=getattr(settings, 'RODO_TEXT', ''))))
         self.fields = OrderedDict(fields)
 
 
