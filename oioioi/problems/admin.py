@@ -148,7 +148,7 @@ class ProblemAdmin(admin.ModelAdmin):
     inlines = [TagInline, StatementInline, AttachmentInline,
                ProblemInstanceInline, ProblemSiteInline]
     readonly_fields = ['author', 'name', 'short_name', 'controller_name',
-            'package_backend_name', 'main_problem_instance']
+            'package_backend_name', 'main_problem_instance', 'processes']
     exclude = ['contest']
     list_filter = ['short_name']
 

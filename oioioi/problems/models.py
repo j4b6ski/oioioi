@@ -64,6 +64,7 @@ class Problem(models.Model):
     package_backend_name = \
             DottedNameField('oioioi.problems.package.ProblemPackageBackend',
                     null=True, blank=True, verbose_name=_("package type"))
+    processes = models.IntegerField(default=1, verbose_name=_("Processes limit"))
 
     # main_problem_instance:
     # null=True, because there is a cyclic dependency

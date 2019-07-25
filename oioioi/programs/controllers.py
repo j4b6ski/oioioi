@@ -77,6 +77,7 @@ class ProgrammingProblemController(ProblemController):
         environ['contest_weight'] = contest.judging_weight \
             if contest is not None else settings.NON_CONTEST_WEIGHT
         environ['contest_weight'] += settings.OIOIOI_INSTANCE_WEIGHT_BONUS
+        environ['processes'] = problem.processes
 
         environ.setdefault('report_kinds', ['INITIAL', 'NORMAL'])
         if 'hidden_judge' in environ['extra_args']:
@@ -260,6 +261,7 @@ class ProgrammingProblemController(ProblemController):
             add_before_placeholder(environ, 'after_initial_tests',
                     ('update_submission_score',
                         'oioioi.contests.handlers.update_submission_score'))
+
 
     def _map_report_to_submission_status(self, status, problem_instance,
                                          kind='INITIAL'):

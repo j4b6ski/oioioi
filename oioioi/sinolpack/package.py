@@ -110,6 +110,7 @@ class SinolPackage(object):
         self.package = None
         self.time_limits = None
         self.memory_limits = None
+        self.processes = None
         self.statement_memory_limit = None
         self.prog_archive = None
         self.extra_compilation_args = \
@@ -334,6 +335,7 @@ class SinolPackage(object):
         self._process_config_yml()
         self._detect_full_name()
         self._detect_library()
+        self._detect_processes()
         self._process_extra_files()
         if self.use_make:
             self._extract_makefiles()
@@ -379,6 +381,11 @@ class SinolPackage(object):
             if r is not None:
                 self.problem.name = _decode(r.group(1), text)
                 self.problem.save()
+
+    def _detect_processes(self):
+        """ Sets process limit from config key `processes` """
+        self.problem.processes = self.config.get('processes', 1)
+        self.problem.save()
 
     def _detect_library(self):
         """Finds if the problem has a library.

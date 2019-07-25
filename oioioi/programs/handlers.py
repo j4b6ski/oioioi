@@ -171,6 +171,7 @@ def collect_tests(env, **kwargs):
         if test.memory_limit:
             test_env['exec_mem_limit'] = test.memory_limit
         test_env['to_judge'] = False
+        test_env['processes'] = env.get('processes', 1)
         env['tests'][test.name] = test_env
 
     for test in tests_to_judge:
