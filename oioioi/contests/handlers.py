@@ -142,9 +142,17 @@ def create_error_report(env, submission, exc_info, **kwargs):
 
     return env
 
-
 @transaction.atomic
 @_get_submission_or_skip
+def attempt_rejudge(env, submission, exc_info, **kwargs):
+    if submission.auto_rejudges < 1:
+        submission.auto_rejudges += 1
+        submission.save()
+        submission.problem_instance.controller.judge(submission, is_rejudge=True)
+        return mail_admins_on_error(env, submission, exc_info, message='Attempting rejudge', **kwargs)
+    else:
+        return mail_admins_on_error(env, submission, exc_info, message='System Error', **kwargs)
+
 def mail_admins_on_error(env, submission, exc_info, **kwargs):
     """Sends email to all admins defined in settings.ADMINS on each
        grading error occurrence.
@@ -154,8 +162,9 @@ def mail_admins_on_error(env, submission, exc_info, **kwargs):
     """
 
     try:
-        mail_admins("System Error evaluating submission #%s" %
-                    env.get('submission_id', '???'),
+        mail_admins("%s (submission #%s)" %
+                    (kwargs.get('message', 'error'),
+                    env.get('submission_id', '???')),
                     traceback.format_exc(exc_info))
     except (socket.error, SMTPException), e:
         logger.error("An error occurred while sending email: %s",

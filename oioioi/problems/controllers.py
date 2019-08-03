@@ -157,8 +157,8 @@ class ProblemController(RegisteredSubclassesBase, ObjectWithMixins):
                     'oioioi.contests.handlers.create_error_report'))
 
         if settings.MAIL_ADMINS_ON_GRADING_ERROR:
-            environ['error_handlers'].append(('mail_admins_on_error',
-                        'oioioi.contests.handlers.mail_admins_on_error'))
+            environ['error_handlers'].append(('attempt_rejudge',
+                        'oioioi.contests.handlers.attempt_rejudge'))
 
         environ['error_handlers'].extend(extra_steps)
         environ['error_handlers'].append(('error_handled',

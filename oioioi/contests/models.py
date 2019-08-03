@@ -341,6 +341,7 @@ class Submission(models.Model):
             verbose_name=_("status"))
     comment = models.TextField(blank=True,
             verbose_name=_("comment"))
+    auto_rejudges = models.IntegerField(default=0)
 
     @property
     def problem(self):
