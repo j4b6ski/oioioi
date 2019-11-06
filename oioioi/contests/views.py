@@ -310,7 +310,7 @@ def contest_files_view(request):
             kwargs={'contest_id': request.contest.id, 'attachment_id': pf.id}),
         'pub_date': None
         } for pf in problem_files]
-    rows.sort(key=itemgetter('name'))
+    rows.sort(key=itemgetter('pub_date'))
     return TemplateResponse(request, 'contests/files.html', {'files': rows,
         'files_on_page': getattr(settings, 'FILES_ON_PAGE', 100),
         'add_category_field': add_category_field, 'show_pub_dates': True})
