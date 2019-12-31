@@ -46,6 +46,13 @@ class ParticipantAdmin(admin.ModelAdmin):
     user_login.short_description = _("Login")
     user_login.admin_order_field = 'user__username'
 
+    def user_email(self, instance):
+        if not instance.user:
+            return ''
+        return instance.user.email
+    user_email.short_description = _("Email")
+    user_email.admin_order_field = 'user__email'
+
     def user_full_name(self, instance):
         if not instance.user:
             return ''
@@ -64,9 +71,12 @@ class ParticipantAdmin(admin.ModelAdmin):
     def get_list_display(self, request):
         ld = super(ParticipantAdmin, self).get_list_display(request)
         rcontroller = request.contest.controller.registration_controller()
+        a = []
         if rcontroller.allow_login_as_public_name():
-            return ld + ['anonymous']
-        return ld
+            a += ['anonymous']
+        if request.user.is_superuser:
+            a += ['user_email']
+        return ld + a
 
     def get_queryset(self, request):
         qs = super(ParticipantAdmin, self).get_queryset(request)
