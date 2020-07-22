@@ -89,7 +89,7 @@ def edit_profile_view(request):
             allow_login_change=not has_valid_username(request.user)
         )
         if form.is_valid():
-            form.save()
+            #form.save() Nie pozwalamy na zmiany w profilu
             return redirect('index')
     else:
         form = PreferencesFactory().create_form(

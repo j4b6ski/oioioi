@@ -89,6 +89,7 @@ class UserInfoInErrorMessage(object):
 
 class CheckLoginMiddleware(object):
     def process_request(self, request):
+        return
         if has_valid_username(request.user):
             return
         storage = messages.get_messages(request)
