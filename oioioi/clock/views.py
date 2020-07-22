@@ -1,6 +1,6 @@
 import re
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytz
 from django.contrib import messages
@@ -13,6 +13,7 @@ from oioioi.contests.models import Round
 from oioioi.status.registry import status_registry
 from oioioi.su.utils import is_real_superuser
 
+ONE_DAY = timedelta(days=1)
 
 @status_registry.register
 def get_times_status(request, response):
@@ -42,7 +43,7 @@ def get_times_status(request, response):
         rtimes = [(contest.controller.get_round_times(request, round), round)
                   for round in Round.objects.filter(contest=contest)]
         next_rounds_times = [(rt, round) for (rt, round)
-                             in rtimes if rt.is_future(timestamp) and not rt.is_hidden()]
+                             in rtimes if rt.is_future(timestamp) and not rt.is_hidden() and rt.get_start() <= timestamp + ONE_DAY]
         next_rounds_times.sort(key=lambda (rt, round): rt.get_start())
         current_rounds_times = [(rt, round) for (rt, round) in rtimes
                                 if rt.is_active(timestamp) and rt.get_end() and not rt.is_hidden()]
