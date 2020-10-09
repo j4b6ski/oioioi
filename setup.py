@@ -44,16 +44,16 @@ setup(
 
         "Celery>=3.1.15,<4.0.0",
         "django-celery>=3.1.15,<=3.1.17",
-        "django-supervisor",
+        "django-supervisor==0.4.0",
         #"linaro-django-pagination==2.0.2",
         "django-compressor==2.2",
-        "django-overextends>=0.4.1",
+        "django-overextends==0.4.3",
         "pygments",
-        "django-libsass>=0.7",
+        "django-libsass==0.7",
 
         "django-debug-toolbar==1.9.1",
-        "django-extensions>=1.0.0",
-        "werkzeug>=0.14",
+        "django-extensions==2.0.0",
+        "werkzeug==0.14",
 
         "nose >= 1.3",
 
@@ -89,7 +89,7 @@ setup(
         # A library required by AMQP, used in notifications system.
         # We need version >= 1.5.1, becuase it has fixed this bug
         # https://github.com/celery/librabbitmq/issues/42
-        "librabbitmq>=1.5.1",
+        "librabbitmq==1.6.1",
 
 	"filetracker==1.1.0",
         "raven",
