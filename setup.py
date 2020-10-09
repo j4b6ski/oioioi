@@ -37,13 +37,13 @@ setup(
         "PyYAML",
         "python-dateutil",
         # Earlier versions of django-nose are incompatible with Django 1.9
-        "django-nose>=1.4",
+        "django-nose==1.4.5",
         "nose-picker>=0.5.3",
 
-        "django-registration-redux>=1.6,<2.0",
+        "django-registration-redux==1.10",
 
         "Celery>=3.1.15,<4.0.0",
-        "django-celery>=3.1.15,<=3.1.17",
+        "django-celery===3.1.17",
         "django-supervisor==0.4.0",
         #"linaro-django-pagination==2.0.2",
         "django-compressor==2.2",
@@ -77,7 +77,7 @@ setup(
 
         "chardet",
 
-        "django-gravatar2",
+        "django-gravatar2==1.4.2",
 
         "django-mptt==0.9.0",
 
