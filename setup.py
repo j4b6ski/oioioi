@@ -30,6 +30,7 @@ setup(
     author_email='sio2@sio2project.mimuw.edu.pl',
     url='http://sio2project.mimuw.edu.pl',
     install_requires=[
+        "django-appconf==1.0.2",
         "Django==1.9.13",
         "pytz>=2013b",
         "sqlalchemy",
