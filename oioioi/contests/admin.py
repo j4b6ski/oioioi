@@ -251,7 +251,7 @@ contest_admin_menu_registry.register('contest_change', _("Settings"),
 
 class ProblemInstanceAdmin(admin.ModelAdmin):
     form = ProblemInstanceForm
-    fields = ('contest', 'round', 'problem', 'short_name', 'submissions_limit', 'score_weight')
+    fields = ('contest', 'round', 'problem', 'short_name', 'submissions_limit', 'score_weight', 'solution')
     list_display = ('name_link', 'short_name_link', 'round', 'package',
             'actions_field')
     readonly_fields = ('contest', 'problem')
@@ -581,10 +581,12 @@ class SubmissionAdmin(admin.ModelAdmin):
     problem_instance_display.admin_order_field = 'problem_instance'
 
     def status_display(self, instance):
+        controller = instance.problem_instance.controller
+        status_class = controller.get_status_class(None, instance)
+        status_display = controller.get_status_display(None, instance)
         return '<span class="submission-admin ' \
                'submission submission--%s">%s</span>' % \
-                (instance.status, conditional_escape(force_unicode(
-                    instance.get_status_display())))
+                (status_class, conditional_escape(force_unicode(status_display)))
     status_display.allow_tags = True
     status_display.short_description = _("Status")
     status_display.admin_order_field = 'status'

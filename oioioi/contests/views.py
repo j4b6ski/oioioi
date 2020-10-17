@@ -100,6 +100,7 @@ def problems_list_view(request):
     show_rounds = len(frozenset(pi.round_id for pi in problem_instances)) > 1
     return TemplateResponse(request, 'contests/problems_list.html',
         {'problem_instances': problems_statements,
+         'visible_attachments': get_visible_attachments(request),
          'show_rounds': show_rounds,
          'show_scores': request.user.is_authenticated(),
          'problems_on_page': getattr(settings, 'PROBLEMS_ON_PAGE', 100)})
@@ -275,18 +276,20 @@ def change_submission_kind_view(request, submission_id, kind):
             % {'kind': kind, 'submission_id': submission.id})
     return redirect('submission', submission_id=submission_id)
 
-
-@menu_registry.register_decorator(_("Files"), lambda request:
-        reverse('contest_files'), order=200)
-@enforce_condition(not_anonymous & contest_exists & can_enter_contest)
-def contest_files_view(request):
+def get_visible_attachments(request):
     contest_files = ContestAttachment.objects.filter(contest=request.contest) \
         .filter(Q(round__isnull=True) | Q(round__in=visible_rounds(request))) \
         .select_related('round')
     if not is_contest_admin(request):
         contest_files = contest_files.filter(Q(pub_date__isnull=True)
                 | Q(pub_date__lte=request.timestamp))
+    return contest_files
 
+@menu_registry.register_decorator(_("Files"), lambda request:
+        reverse('contest_files'), order=200)
+@enforce_condition(not_anonymous & contest_exists & can_enter_contest)
+def contest_files_view(request):
+    contest_files = get_visible_attachments(request)
     round_file_exists = contest_files.filter(round__isnull=False).exists()
     problem_instances = visible_problem_instances(request)
     problem_ids = [pi.problem_id for pi in problem_instances]
@@ -310,7 +313,9 @@ def contest_files_view(request):
             kwargs={'contest_id': request.contest.id, 'attachment_id': pf.id}),
         'pub_date': None
         } for pf in problem_files]
-    rows.sort(key=itemgetter('pub_date'))
+    print(rows)
+    sort_key = lambda x: (x['pub_date'] is None, x['pub_date'])
+    rows.sort(key=sort_key)
     return TemplateResponse(request, 'contests/files.html', {'files': rows,
         'files_on_page': getattr(settings, 'FILES_ON_PAGE', 100),
         'add_category_field': add_category_field, 'show_pub_dates': True})

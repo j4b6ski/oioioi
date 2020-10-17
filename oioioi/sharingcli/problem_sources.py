@@ -25,6 +25,7 @@ class RemoteClient(object):
 
     def make_request(self, relative_url, extra_data=None, **kwargs):
         url = self.sharing_url + '/' + relative_url
+        logger.error('trying to get task from ' + url)
         post_data = {'client_id': self.client_id,
                 'client_secret': self.client_secret}
         if not extra_data:

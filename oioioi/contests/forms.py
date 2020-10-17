@@ -7,7 +7,7 @@ from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 from oioioi.base.utils.user_selection import UserSelectionField
 from oioioi.base.utils.inputs import narrow_input_field
-from oioioi.contests.models import Contest, ProblemInstance, Round
+from oioioi.contests.models import Contest, ProblemInstance, Round, ContestAttachment
 from oioioi.contests.utils import submittable_problem_instances
 from oioioi.programs.models import Test
 
@@ -97,6 +97,7 @@ class ProblemInstanceForm(forms.ModelForm):
         if instance:
             self.fields['round'].queryset = instance.contest.round_set
             self.fields['round'].required = True
+            self.fields['solution'].queryset = ContestAttachment.objects.filter(contest=instance.contest)
 
 
 class SubmissionForm(forms.Form):

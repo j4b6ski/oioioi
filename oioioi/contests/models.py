@@ -257,7 +257,7 @@ class ProblemInstance(models.Model):
         default=settings.DEFAULT_SUBMISSIONS_LIMIT,
         verbose_name=_("submissions limit"))
     score_weight = models.DecimalField(default=1.0, decimal_places=2, verbose_name="score weight", max_digits=5, null=True, blank=True)
-
+    solution = models.ForeignKey(ContestAttachment, verbose_name=_("solution"), null=True, blank=True)
     # set on True only when problem_instace's tests were overriden but there
     # are some submissions judged on old tests
     needs_rejudge = models.BooleanField(default=False,

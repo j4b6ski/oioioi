@@ -51,12 +51,17 @@ def submission_template_context(request, submission):
     valid_kinds_for_submission = export_entries(submission_kinds,
             valid_kinds)
 
+    status_class = controller.get_status_class(request, submission)
+    status_display = controller.get_status_display(request, submission)
+
     return {'submission': submission,
             'can_see_status': can_see_status,
             'can_see_score': can_see_score,
             'can_see_comment': can_see_comment,
             'link': link,
-            'valid_kinds_for_submission': valid_kinds_for_submission}
+            'valid_kinds_for_submission': valid_kinds_for_submission,
+            'status_class': status_class,
+            'status_display': status_display}
 
 
 class RegistrationController(RegisteredSubclassesBase, ObjectWithMixins):
@@ -107,7 +112,9 @@ class RegistrationController(RegisteredSubclassesBase, ObjectWithMixins):
         permissions = Contest.objects.filter(id__in=contests)
         participated = \
                 cls.filter_user_contests(request, contest_queryset)
-        return (permissions | participated).distinct()
+        result = (permissions | participated).distinct()
+
+        return result
 
     @classmethod
     def filter_user_contests(cls, request, contest_queryset):
@@ -799,6 +806,12 @@ class ContestController(RegisteredSubclassesBase, ObjectWithMixins):
         """Determines which languages are allowed for submissions.
         """
         return ['C', 'C++', 'Pascal']
+
+    def get_status_class(self, request, submission):
+        return submission.status
+
+    def get_status_display(self, request, submission):
+        return submission.get_status_display()
 
 
 class PastRoundsHiddenContestControllerMixin(object):

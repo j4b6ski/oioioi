@@ -537,22 +537,26 @@ class ProgrammingProblemController(ProblemController):
     def is_admin(self, request, report):
         return can_admin_problem(request, self.problem)
 
+    def filter_test_reports(self, request, report, tests):
+        return tests
+
     def render_report(self, request, report):
         problem_instance = report.submission.problem_instance
         if report.kind == 'FAILURE':
             return problem_instance.controller \
                     .render_report_failure(request, report)
 
+        picontroller = problem_instance.controller
+        
         score_report = ScoreReport.objects.get(submission_report=report)
         compilation_report = \
                 CompilationReport.objects.get(submission_report=report)
-        test_reports = TestReport.objects.filter(submission_report=report) \
-                .order_by('test__order', 'test_group', 'test_name')
+        test_reports = picontroller.filter_test_reports(request, report,
+                TestReport.objects.filter(submission_report=report)\
+                    .order_by('test__order', 'test_group', 'test_name'))
         group_reports = GroupReport.objects.filter(submission_report=report)
         show_scores = any(gr.score is not None for gr in group_reports)
         group_reports = dict((g.group, g) for g in group_reports)
-
-        picontroller = problem_instance.controller
 
         allow_download_out = picontroller \
                                 .can_generate_user_out(request, report)
@@ -848,3 +852,6 @@ class ProgrammingContestController(ContestController):
             groups[test.group] = test.max_score
 
         return sum(groups.values())
+    
+    def filter_test_reports(self, request, report, tests):
+        return tests

@@ -44,7 +44,7 @@
                         <a href="#"
                            data-post-url="{% url 'rejudge_submission' submission_id=submission.submission.id %}">
                             <span class="glyphicon glyphicon-eye-open"></span>
-\                            {% trans "Normal rejudge" %}
+                            {% trans "Normal rejudge" %}
                         </a>
                     </li>
                     {% for link, name in supported_extra_args.items %}
@@ -144,9 +144,9 @@
                 {% endif %}
                 <td>{{ submission.submission.get_date_display }}</td>
                 {% if submission.can_see_status %}
-                    <td class="submission submission--{{ submission.submission.status }}">
+                    <td class="submission submission--{{ submission.status_class }}">
                         {% block status %}
-                        {{ submission.submission.get_status_display }}
+                        {{ submission.status_display }}
                         {% endblock %}
                     </td>
                 {% else %}

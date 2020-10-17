@@ -18,7 +18,7 @@
     <table class="{% block table-classes %}table table-condensed submission{% endblock %}">
         <thead>
             <tr>
-                <th class="submission__margin submission--{{ record.submission.status }}"></th>
+                <th class="submission__margin"></th>
                 <th>{% trans "Submission time" %}</th>
                 {% if not inside_problem_view %}
                     <th>{% trans "Problem" %}</th>
@@ -39,7 +39,7 @@
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </td>
                     {% else %}
-                        <td class="{% if record.can_see_status %}submission__margin submission--{{ record.submission.status }}{% endif %}"></td>
+                        <td class="{% if record.can_see_status %}submission__margin submission--{{ record.status_class }}{% endif %}"></td>
                     {% endif %}
                     <td><a href="{{ record.link }}">
                         {{ record.submission.get_date_display }}
@@ -53,9 +53,9 @@
                         {{ record.submission.get_kind_display }}
                     </td>
                     <td id="submission{{ record.submission.id }}-status"
-                        class="{% if record.can_see_status %}submission--{{ record.submission.status }}{% endif %}">
+                        class="{% if record.can_see_status %}submission--{{ record.status_class }}{% endif %}">
                         {% if record.can_see_status %}
-                            {{ record.submission.get_status_display }}
+                            {{ record.status_display }}
                         {% endif %}
                     </td>
                     {% if show_scores %}

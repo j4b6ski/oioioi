@@ -11,7 +11,8 @@ from django.db import transaction
 from oioioi.base.utils.db import require_transaction
 from oioioi.contests.models import ProblemInstance, Submission, \
         SubmissionReport, FailureReport
-
+from django.conf import settings
+from datetime import datetime
 logger = logging.getLogger(__name__)
 
 
@@ -151,7 +152,20 @@ def attempt_rejudge(env, submission, exc_info, **kwargs):
         submission.problem_instance.controller.judge(submission, is_rejudge=True)
         return mail_admins_on_error(env, submission, exc_info, message='Attempting rejudge', **kwargs)
     else:
+        put_influx(submission)
         return mail_admins_on_error(env, submission, exc_info, message='System Error', **kwargs)
+
+def put_influx(submission):
+    if not settings.SEND_INFLUX: return
+    logger.info("Sending SE info to influx")
+    data = {
+        'id': submission.id,
+        'contest': submission.problem_instance.contest.id,
+        'problem': submission.problem_instance.problem.short_name,
+    }
+    from staszic.influx.driver import InfluxClient
+    with InfluxClient() as ic:
+        ic.append(datetime.now(), data, 'system_error')
 
 def mail_admins_on_error(env, submission, exc_info, **kwargs):
     """Sends email to all admins defined in settings.ADMINS on each

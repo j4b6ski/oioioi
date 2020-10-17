@@ -475,3 +475,9 @@ class ProblemController(RegisteredSubclassesBase, ObjectWithMixins):
         else:
             return qs.filter(user=request.user, date__lte=request.timestamp) \
             .exclude(kind='IGNORED_HIDDEN')
+    
+    def get_status_class(self, request, submission):
+        return submission.status
+    
+    def get_status_display(self, request, submission):
+        return submission.get_status_display()

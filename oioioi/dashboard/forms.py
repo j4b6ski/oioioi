@@ -37,11 +37,11 @@ class DashboardMessageForm(forms.ModelForm):
                 .format(', '.join(self.tag_as_str(tag)
                 for tag in sorted(self.allowed_tags)))
 
-    def clean_content(self):
-        return bleach.clean(self.cleaned_data['content'],
-                tags=self.allowed_tags,
-                attributes=self.allowed_attributes,
-                strip=True)
+#    def clean_content(self):
+#        return bleach.clean(self.cleaned_data['content'],
+#                tags=self.allowed_tags,
+#                attributes=self.allowed_attributes,
+#                strip=True)
 
     def save(self, commit=True, *args, **kwargs):
         instance = super(DashboardMessageForm, self) \

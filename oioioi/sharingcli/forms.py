@@ -41,7 +41,7 @@ class RemoteProblemForm(ProblemUploadForm):
             self.cleaned_data['task_id'] = response['id']
             return url
         except urllib2.HTTPError, e:
-            raise forms.ValidationError('HTTP Error %s'%(str(e)))
+            raise forms.ValidationError('HTTP Error: %s'%(str(e)))
             if e.code == 404:
                 raise forms.ValidationError(_("Not a task URL"))
             else:
