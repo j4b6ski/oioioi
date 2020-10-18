@@ -947,7 +947,6 @@ msgid "Thank you for registering."
 msgstr "Dziękujemy za utworzenie konta."
 
 #: base/templates/registration/registration_complete.html:10
-#, fuzzy
 #| msgid ""
 #| "We've e-mailed you instructions for activating the account to\n"
 #| "the e-mail address you submitted. You should be receiving it shortly.\n"
@@ -959,6 +958,7 @@ msgid ""
 msgstr ""
 "E-mail z instrukcją aktywacji konta już został wysłany i wkrótce powinien "
 "dotrzeć.\n"
+"       "
 
 #: base/templates/registration/registration_form.html:6
 #: base/templates/registration/registration_form.html:16
