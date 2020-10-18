@@ -1,5 +1,4 @@
 from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseForbidden
 from django.template import RequestContext
@@ -22,6 +21,8 @@ from oioioi.base.utils import jsonify, generate_key
 from oioioi.base.menu import account_menu_registry
 from oioioi.base.preferences import PreferencesFactory
 from oioioi.base.processors import site_name
+from django.conf import settings
+from captcha import validate_grecaptcha_response
 import traceback
 
 account_menu_registry.register('change_password', _("Change password"),
@@ -69,12 +70,13 @@ def handler404(request, exception):
     return page_not_found(request, exception)
 
 
-def handler403(request):
+def handler403(request, exception=None):
     if request.is_ajax():
         return HttpResponse('403 Forbidden', status=403,
                 content_type='text/plain')
-    message = render_to_string('403.html',
-            context_instance=RequestContext(request))
+    context = RequestContext(request)
+    context.update({'exception': exception})
+    message = render_to_string('403.html', context_instance=context)
     return HttpResponseForbidden(message)
 
 
@@ -113,7 +115,11 @@ def login_view(request, redirect_field_name=REDIRECT_FIELD_NAME, **kwargs):
         redirect_to = request.GET.get(redirect_field_name, None)
         return safe_redirect(request, redirect_to)
     else:
-        return auth_login(request, extra_context=site_name(request), **kwargs)
+        extra_context = site_name(request)
+        extra_context.update({'grecaptcha_sitekey': settings.GOOGLE_RECAPTCHA_SITE_KEY})
+        if request.POST: validate_grecaptcha_response(request.POST.get('g-recaptcha-response',''))
+            
+        return auth_login(request, extra_context=extra_context, **kwargs)
 
 
 @require_GET

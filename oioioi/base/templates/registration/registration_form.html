@@ -9,6 +9,26 @@
     {% endif %}
 {% endblock %}
 
+{% block scripts %}
+    {{ block.super }}
+     <script src="https://www.google.com/recaptcha/api.js"></script>
+     <script>
+         function onSubmit(token) {
+             document.getElementById("register-form").submit();
+         }
+     </script>
+{% endblock scripts %}
+
+{% block styles %}
+     {{ block.super }}
+    <style>
+        .grecaptcha-badge {
+            z-index: 999999;
+            display: block;
+        }
+    </style>
+{% endblock styles %}
+
 {% block content %}
     {% if not user.is_authenticated %}
         {% block banner %}
@@ -23,11 +43,18 @@
         <p>{% trans "Please fill the form below to register." %}</p>
     {% endif %}
 
-    <form method="post">
+    <form method="post" id="register-form">
         {% csrf_token %}
         {% include "ingredients/form.html" %}
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+            {% if not user.is_authenticated %}
+                <button class="btn btn-primary g-recaptcha"
+                    data-sitekey="{{grecaptcha_sitekey}}"
+                    data-callback='onSubmit'
+                    data-action='register'>{% trans "Submit" %}</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+            {% endif %}
         </div>
     </form>
 {% endblock %}

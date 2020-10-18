@@ -13,13 +13,19 @@ from oioioi.base.forms import RegistrationFormWithNames, \
     OioioiPasswordResetForm
 import registration.backends.default.urls
 import registration.views
+from captcha import validate_grecaptcha_response
+from django.core.exceptions import PermissionDenied
 
 
 class RegistrationView(DefaultRegistrationView):
     form_class = RegistrationFormWithNames
 
     def register(self, form):
+    
+        validate_grecaptcha_response(form.data['g-recaptcha-response'])
+            
         data = form.cleaned_data
+            
         request = self.request
 
         user = User.objects.create_user(data['username'],
@@ -38,6 +44,13 @@ class RegistrationView(DefaultRegistrationView):
             signals.user_activated.send(sender=self.__class__, user=user,
                                         request=request)
         return user
+
+    def get_context_data(self, **kwargs):
+        context = super(RegistrationView, self).get_context_data(**kwargs)
+        context['grecaptcha_sitekey'] = settings.GOOGLE_RECAPTCHA_SITE_KEY
+        return context
+
+
 
 urlpatterns = [
     url(r'^register/$',
