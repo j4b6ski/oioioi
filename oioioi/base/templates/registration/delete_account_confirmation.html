@@ -3,22 +3,40 @@
 
 {% block title %}{% trans "Confirm deletion" %}{% endblock %}
 
+{% block scripts %}
+    <script>
+        function check_confirm_box() {
+            if ($("#confirm-box").val() == "{{request.user.username}}") {
+                $("#delete-account").prop('disabled', false);
+            }
+            else {
+                $("#delete-account").prop('disabled', true);
+            }
+        }
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="alert alert-danger text-center">
-        <h1>{% trans "Confirm deletion" %}</h1>
-        <p>{% trans "You are going to delete your account. It cannot be undone." %}
-        <p>{% trans "Are you sure?" %}
-        <form method="post" class="empty-space-filler">
-            {% csrf_token %}
-            <input type="hidden" name="post" value="yes" />
-            <div class="btn-group">
-                <button type="submit" class="btn btn-danger">
-                    {% trans "Yes, I'm sure" %}
-                </button>
-                <button class="btn btn-default" onclick="history.back()">
-                    {% trans "No, go back" %}
-                </button>
-            </div>
-        </form>
+        <h2>{% trans "Confirm account deletion" %}</h2>
+        <p>{% trans "You are going to permanently delete your account." %}</p>
+        <p>{% trans "All your data, including contest results and submitted programs, will be deleted." %}</p>
+        <p>{% trans "Are you sure? If yes, please type your account name below to delete it." %}</p>
+        <div style="padding-left:20%; padding-right:20%;">
+            <form method="post" class="empty-space-filler">
+                {% csrf_token %}
+                <input type="hidden" name="post" value="yes" />
+                <input type="text" id="confirm-box" onkeyup="check_confirm_box();" class="form-control"/><br>
+                <div class="btn-group" class="col-auto">
+                    <button type="submit" id="delete-account" class="btn btn-danger" disabled>
+                        {% trans "Yes, delete my account" %}
+                    </button>
+                    <button type="button" class="btn btn-default btn-success" onclick="history.back()">
+                        {% trans "No, go back" %}
+                    </button>
+                </div>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

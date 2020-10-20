@@ -134,16 +134,15 @@ def translate_view(request):
         raise SuspiciousOperation
 
 
+@account_menu_registry.register_decorator(_("Delete account"), lambda request: reverse('delete_account'), order=99)
+@enforce_condition(not_anonymous)
 def delete_account_view(request):
-    return HttpResponseForbidden()
 
     if request.POST:
         for participant in request.user.participant_set.all():
             participant.erase_data()
-        request.user.is_active = False
-        request.user.save()
-        return auth_logout(request,
-                template_name='registration/delete_account_done.html')
+        request.user.delete()
+        return auth_logout(request, template_name='registration/delete_account_done.html', extra_context=site_name(request))
 
     return TemplateResponse(request,
             'registration/delete_account_confirmation.html')

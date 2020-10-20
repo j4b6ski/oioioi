@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SIO2 Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-22 21:01+0200\n"
+"POT-Creation-Date: 2020-10-20 20:37+0000\n"
 "PO-Revision-Date: 2016-10-19 15:24+0000\n"
 "Last-Translator: Michał Łazowik <mlazowik@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/sio2project/sio2project/"
@@ -371,9 +371,7 @@ msgstr "Usunięto %(count)d %(items)s."
 msgid "Cannot delete %(name)s"
 msgstr "Nie można usunąć %(name)s"
 
-#: base/admin.py:181
-#: base/templates/registration/delete_account_confirmation.html:10
-#: contests/templates/contests/confirm_rejudge.html:18
+#: base/admin.py:181 contests/templates/contests/confirm_rejudge.html:18
 #: contests/templates/contests/confirm_resetting_limits.html:23
 msgid "Are you sure?"
 msgstr "Na pewno?"
@@ -566,7 +564,7 @@ msgstr ""
 "Twój login – %(login)s – zawiera niedozwolone znaki. Przejdź <a "
 "href='%(link)s'>tutaj</a>, aby go zmienić. To potrwa tylko chwilkę."
 
-#: base/templates/403.html:7
+#: base/templates/403.html:10
 msgid "403 &mdash; Sorry, but you're not allowed to see anything here. "
 msgstr "403 &mdash; Niestety, nie ma tu niczego co moglibyśmy Ci pokazać."
 
@@ -608,7 +606,6 @@ msgstr "Strona główna"
 #: base/templates/admin/delete_confirmation.html:4
 #: base/templates/admin/delete_confirmation.html:11
 #: base/templates/registration/delete_account_confirmation.html:4
-#: base/templates/registration/delete_account_confirmation.html:8
 msgid "Confirm deletion"
 msgstr "Potwierdź usunięcie"
 
@@ -619,13 +616,12 @@ msgid "Are you sure that you want to delete the following object?"
 msgstr "Na pewno chcesz usunąć następujący węzeł:"
 
 #: base/templates/admin/delete_confirmation.html:18
-#: base/templates/registration/delete_account_confirmation.html:16
 #: participants/templates/participants/unregister.html:15
 msgid "Yes, I'm sure"
 msgstr "Tak, na pewno."
 
 #: base/templates/admin/delete_confirmation.html:19
-#: base/templates/registration/delete_account_confirmation.html:19
+#: base/templates/registration/delete_account_confirmation.html:35
 #: contests/templates/contests/confirm_rejudge.html:29
 #: contests/templates/contests/confirm_resetting_limits.html:33
 #: contests/templates/contests/reattach_problem_confirm.html:25
@@ -662,7 +658,7 @@ msgstr ""
 "a>.</p>\n"
 
 #: base/templates/ingredients/form.html:8
-#: base/templates/registration/login.html:24 contests/models.py:326
+#: base/templates/registration/login.html:44 contests/models.py:326
 #: mailsubmit/templates/mailsubmit/accept.html:15 problems/models.py:209
 msgid "Error"
 msgstr "Błąd"
@@ -704,8 +700,8 @@ msgstr "Naruszenie reguł"
 #: base/templates/ingredients/navbar-user.html:8
 #: base/templates/ingredients/navbar-user.html:15
 #: base/templates/registration/activation_complete.html:10
-#: base/templates/registration/login.html:14
-#: base/templates/registration/login.html:54
+#: base/templates/registration/login.html:34
+#: base/templates/registration/login.html:76
 #: base/templates/registration/password_reset_complete.html:10
 #: base/templates/registration/registration_and_activation_complete.html:11
 #: teachers/templates/registration/activation_complete.html:11
@@ -800,28 +796,47 @@ msgstr ""
 msgid "OIOIOI Registration"
 msgstr "Rejestracja w OIOIOI"
 
-#: base/templates/registration/delete_account_confirmation.html:9
-msgid "You are going to delete your account. It cannot be undone."
+#: base/templates/registration/delete_account_confirmation.html:21
+#| msgid "Confirm deletion"
+msgid "Confirm account deletion"
+msgstr "Potwierdź usunięcie konta"
+
+#: base/templates/registration/delete_account_confirmation.html:22
+#| msgid "You are going to delete your account. It cannot be undone."
+msgid "You are going to permanently delete your account."
 msgstr "Twoje konto zostanie usunięte. Tej czynności nie można cofnąć."
+
+#: base/templates/registration/delete_account_confirmation.html:23
+msgid ""
+"All your data, including contest results and submitted programs, will be "
+"deleted."
+msgstr "Wszystkie Twoje dane, w tym wyniki i wysłane programy, zostaną usunięte."
+
+#: base/templates/registration/delete_account_confirmation.html:24
+msgid "Are you sure? If yes, please type your account name below to delete it."
+msgstr "Czy jesteś pewnien? Jeśli tak, wpisz nazwę swojego konta poniżej."
+
+#: base/templates/registration/delete_account_confirmation.html:32
+#| msgid "Delete account"
+msgid "Yes, delete my account"
+msgstr "Tak, usuń konto"
 
 #: base/templates/registration/delete_account_done.html:4
 #: base/templates/registration/delete_account_done.html:8
-#, fuzzy
 #| msgid "Account deleted"
 msgid "Account succesfully deleted"
 msgstr "Konto usunięte"
 
 #: base/templates/registration/delete_account_done.html:9
-#, fuzzy
 #| msgid "Your account has been deleted successfully"
-msgid "Your account has been succesfully deleted"
-msgstr "Twoje konto zostało usunięte"
+msgid "Your account has been succesfully deleted."
+msgstr "Twoje konto zostało usunięte."
 
-#: base/templates/registration/login.html:61
+#: base/templates/registration/login.html:82
 msgid "Forgot password?"
 msgstr "Nie pamiętasz hasła?"
 
-#: base/templates/registration/login.html:62
+#: base/templates/registration/login.html:83
 msgid "Want to create an account?"
 msgstr "Nie masz jeszcze konta?"
 
@@ -838,7 +853,7 @@ msgstr "Zmiana hasła"
 msgid "Password changed."
 msgstr "Hasło zostało zmienione."
 
-#: base/templates/registration/password_change_form.html:3 base/views.py:27
+#: base/templates/registration/password_change_form.html:3 base/views.py:28
 msgid "Change password"
 msgstr "Zmiana hasła"
 
@@ -947,9 +962,6 @@ msgid "Thank you for registering."
 msgstr "Dziękujemy za utworzenie konta."
 
 #: base/templates/registration/registration_complete.html:10
-#| msgid ""
-#| "We've e-mailed you instructions for activating the account to\n"
-#| "the e-mail address you submitted. You should be receiving it shortly.\n"
 msgid ""
 "We've e-mailed you instructions for activating the account to\n"
 "        the e-mail address you submitted. You should be receiving it "
@@ -961,20 +973,21 @@ msgstr ""
 "       "
 
 #: base/templates/registration/registration_form.html:6
-#: base/templates/registration/registration_form.html:16
+#: base/templates/registration/registration_form.html:36
 msgid "Registration"
 msgstr "Rejestracja"
 
 #: base/templates/registration/registration_form.html:8
-#: base/templates/registration/registration_form.html:18
+#: base/templates/registration/registration_form.html:38
 msgid "Edit your profile"
 msgstr "Edycja Twojego profilu"
 
-#: base/templates/registration/registration_form.html:23
+#: base/templates/registration/registration_form.html:43
 msgid "Please fill the form below to register."
 msgstr "Wypełnij poniższy formularz zakładania konta."
 
-#: base/templates/registration/registration_form.html:30
+#: base/templates/registration/registration_form.html:54
+#: base/templates/registration/registration_form.html:56
 #: base/templates/simple-centered-form.html:12
 #: contests/templates/contests/my_submissions.html:14
 #: contests/templates/contests/submit.html:13 contests/views.py:162
@@ -1043,13 +1056,17 @@ msgstr ""
 "Wpisz poprawny ciąg znaków składający się wyłącznie z małych liter, "
 "podkreśleń i myślników."
 
-#: base/views.py:81
+#: base/views.py:83
 msgid "Edit profile"
 msgstr "Edycja profilu"
 
-#: base/views.py:103
+#: base/views.py:105
 msgid "Log out"
 msgstr "Wyloguj"
+
+#: base/views.py:137
+msgid "Delete account"
+msgstr "Usuń konto"
 
 #: clock/templates/clock/navbar-admin-clock.html:6
 #: clock/templates/clock/navbar-admin-clock.html:8
@@ -2295,7 +2312,6 @@ msgid "Name"
 msgstr "Nazwa"
 
 #: contests/templates/contests/problems_list.html:51
-#| msgid "Solutions"
 msgid "Solution"
 msgstr "Omówienie"
 
@@ -6243,7 +6259,7 @@ msgstr "Nie można połączyć się ze stroną: %s"
 msgid "Invalid server response: %s"
 msgstr "Niepoprawna odpowiedź serwera: %s"
 
-#: sharingcli/problem_sources.py:47
+#: sharingcli/problem_sources.py:48
 msgid "Add from external site"
 msgstr "Dodaj z zewnętrznej strony"
 
@@ -7969,7 +7985,6 @@ msgstr "Nieprawidłowy format daty"
 
 #: workers/templates/workers/list_workers.html:4
 #: workers/templates/workers/list_workers.html:33
-#: workers/templates/workers/queue.html:4
 msgid "Workers list"
 msgstr "Lista sprawdzaczek"
 
@@ -8000,12 +8015,6 @@ msgstr "Wstecz"
 #: workers/templates/workers/list_workers.html:86
 msgid "Delete workers"
 msgstr "Usuń sprawdzaczki"
-
-#: workers/templates/workers/queue.html:77
-#, fuzzy
-#| msgid "Queued"
-msgid "Queue"
-msgstr "W kolejce"
 
 #: workers/views.py:38
 msgid ""
@@ -8069,6 +8078,11 @@ msgstr "liczba wyników"
 msgid "Zeus id"
 msgstr "ID systemu Zeus"
 
+#, fuzzy
+#~| msgid "Queued"
+#~ msgid "Queue"
+#~ msgstr "W kolejce"
+
 #~ msgid "ACM style ranking"
 #~ msgstr "Ranking w stylu ACM"
 
@@ -8077,9 +8091,6 @@ msgstr "ID systemu Zeus"
 
 #~ msgid "Solved"
 #~ msgstr "Rozwiązane"
-
-#~ msgid "Delete account"
-#~ msgstr "Usuń konto"
 
 #, fuzzy
 #~| msgid "Download input for this test"
