@@ -1,10 +1,16 @@
 {% load i18n all_with_prefix %}
-<footer class="footer container-fluid">
-  <span class="text-muted">
-    {% blocktrans %}
-      Powered by <a href="https://www.github.com/sio2project/oioioi">OIOIOI</a>,
-      from the <a href="http://sio2project.mimuw.edu.pl">SIO2 Project</a>.
-    {% endblocktrans %}
-  </span>
+<footer class="footer container-fluid text-center text-muted">
+   <div style="width:100%" class="row">
+      <div class="pull-left">
+      <a href="{% url 'doc' 'regulamin' %}">Regulamin</a>
+      <span style="padding:0.5em">|</span>
+      <a href="{% url 'doc' 'polityka_prywatnosci' %}">Polityka prywatności</a>
+      </div>
+     <small class="pull-right">
+      {% blocktrans %}
+       Powered by <a href="https://www.github.com/sio2project/oioioi">OIOIOI</a>,
+       from the <a href="http://sio2project.mimuw.edu.pl">SIO2 Project</a>.
+      {% endblocktrans %}
+     </small>
   {% all_with_prefix extra_footer_ %}
 </footer>
