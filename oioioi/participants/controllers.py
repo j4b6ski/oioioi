@@ -60,7 +60,7 @@ class ParticipantsController(RegistrationController):
         if self.form_class is None:
             return False
         if is_contest_admin(request):
-            return True
+            return False
         if participant.status == 'BANNED':
             return False
         return bool(request.user == participant.user)
@@ -139,29 +139,35 @@ class ParticipantsController(RegistrationController):
     def registration_view(self, request):
         participant = self._get_participant_for_form(request)
 
-        form = self.get_form(request, participant)
-        assert form is not None, "can_register or can_edit_registration " \
-            "returned True, but controller returns no registration form"
+        participant, created = Participant.objects.get_or_create(contest=self.contest, user=request.user)
+        if 'next' in request.GET:
+            return safe_redirect(request, request.GET['next'])
+        else:
+            return redirect('default_contest_view', contest_id=self.contest.id)
 
-        if request.method == 'POST':
-            if form.is_valid():
-                participant, created = Participant.objects.get_or_create(
-                        contest=self.contest, user=request.user)
-                self.handle_validated_form(request, form, participant)
-                if 'next' in request.GET:
-                    return safe_redirect(request, request.GET['next'])
-                else:
-                    return redirect('default_contest_view',
-                            contest_id=self.contest.id)
-        can_unregister = False
-        if participant:
-            can_unregister = self.can_unregister(request, participant)
-        context = {
-            'form': form,
-            'participant': participant,
-            'can_unregister': can_unregister,
-        }
-        return TemplateResponse(request, self.registration_template, context)
+        #form = self.get_form(request, participant)
+        #assert form is not None, "can_register or can_edit_registration " \
+        #    "returned True, but controller returns no registration form"
+
+        #if request.method == 'POST':
+        #    if form.is_valid():
+        #        participant, created = Participant.objects.get_or_create(
+        #                contest=self.contest, user=request.user)
+        #        self.handle_validated_form(request, form, participant)
+        #        if 'next' in request.GET:
+        #            return safe_redirect(request, request.GET['next'])
+        #        else:
+        #            return redirect('default_contest_view',
+        #                    contest_id=self.contest.id)
+        #can_unregister = False
+        #if participant:
+        #    can_unregister = self.can_unregister(request, participant)
+        #context = {
+        #    'form': form,
+        #    'participant': participant,
+        #    'can_unregister': can_unregister,
+        #}
+        #return TemplateResponse(request, self.registration_template, context)
 
 
 class OpenParticipantsController(ParticipantsController):
@@ -175,7 +181,7 @@ class OpenParticipantsController(ParticipantsController):
         return True
 
     def allow_login_as_public_name(self):
-        return True
+        return False
 
     # Redundant because of filter_visible_contests, but saves a db query
     def can_enter_contest(self, request):
