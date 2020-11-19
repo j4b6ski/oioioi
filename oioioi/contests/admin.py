@@ -28,7 +28,7 @@ from oioioi.contests.utils import is_contest_admin, is_contest_observer
 from oioioi.contests.current_contest import set_cc_id
 from oioioi.programs.models import Test, TestReport
 from oioioi.problems.models import ProblemSite, ProblemPackage
-
+from staszic.pd.permissions import has_personal_data_pass
 
 class ContestProxyAdminSite(admin.AdminSite):
     def __init__(self, orig):
@@ -686,7 +686,7 @@ contest_observer_menu_registry.register('submissions_admin', _("Submissions"),
 admin.system_admin_menu_registry.register('managesubmissions_admin',
         _("All submissions"), lambda request:
         '%s?all=1' % reverse('oioioiadmin:contests_submission_changelist',
-                kwargs={'contest_id': None}), order=50)
+                kwargs={'contest_id': None}), order=50, condition=has_personal_data_pass)
 
 
 class RoundTimeRoundListFilter(SimpleListFilter):

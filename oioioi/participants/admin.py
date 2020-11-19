@@ -20,6 +20,7 @@ from oioioi.participants.utils import contest_has_participants, \
         contest_is_onsite
 from oioioi.contests.utils import is_contest_admin
 
+from staszic.pd.permissions import has_personal_data_pass
 
 class ParticipantAdmin(admin.ModelAdmin):
     list_select_related = True
@@ -31,7 +32,7 @@ class ParticipantAdmin(admin.ModelAdmin):
     form = ParticipantForm
 
     def has_add_permission(self, request):
-        return is_contest_admin(request)
+        return is_contest_admin(request) and has_personal_data_pass(request)
 
     def has_change_permission(self, request, obj=None):
         return is_contest_admin(request)

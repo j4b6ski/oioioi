@@ -23,6 +23,8 @@ from oioioi.base.utils.redirect import safe_redirect
 from oioioi.base.menu import MenuRegistry, side_pane_menus_registry
 from oioioi.base.forms import OioioiUserChangeForm, OioioiUserCreationForm
 
+from staszic.pd.permissions import has_personal_data_pass
+
 TabularInline = admin.TabularInline
 StackedInline = admin.StackedInline
 
@@ -302,6 +304,9 @@ class OioioiUserAdmin(UserAdmin, ObjectWithMixins):
     filter_horizontal = ()
     actions = ['activate_user']
 
+    def has_change_permission(self, request, obj=None):
+        return has_personal_data_pass(request)
+
     def activate_user(self, request, qs):
         qs.update(is_active=True)
     activate_user.short_description = _("Mark users as active")
@@ -310,7 +315,8 @@ class OioioiUserAdmin(UserAdmin, ObjectWithMixins):
 site.register(User, OioioiUserAdmin)
 
 system_admin_menu_registry.register('users', _("Users"),
-        lambda request: reverse('oioioiadmin:auth_user_changelist'), order=10)
+        lambda request: reverse('oioioiadmin:auth_user_changelist'), order=10,
+        condition=has_personal_data_pass)
 
 
 class InstanceDependentAdmin(admin.ModelAdmin):
