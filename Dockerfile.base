@@ -4,22 +4,98 @@ ENV PYTHONUNBUFFERED 1
 
 
 RUN echo "* installing dependencies"
-RUN apt-get update
+RUN apt-get update --fix-missing
+RUN apt-get install -y texlive-latex-base
+RUN apt-get install -y texlive-lang-polish
+RUN apt-get install  -o Acquire::Retries=3 -y texlive-latex-extra 
+RUN apt-get install -y texlive-fonts-recommended
+RUN apt-get install -y fp-compiler fp-units-base fp-units-math
+RUN apt-get install -y gcc-multilib
 RUN apt-get install -y git
+
+#RUN apt-get install -y build-essential
+#RUN apt-get install -y libjs-underscore
+#RUN apt-get install -y libjs-sphinxdoc
+#RUN apt-get install -y libpython2.7
+RUN apt-get install -y libpython2.7-dev
+#RUN apt-get install -y libpython2-dev
+#RUN apt-get install -y libpython-dev
+#RUN apt-get install -y libpython-all-dev
+#RUN apt-get install -y python-all
+#RUN apt-get install -y python2.7-dev
+#RUN apt-get install -y python2-dev
+#RUN apt-get install -y python-dev
+#RUN apt-get install -y python-all-dev
+#RUN apt-get install -y python-asn1crypto
+#RUN apt-get install -y python-cffi-backend
+#RUN apt-get install -y python-cffi-backend
+#RUN apt-get install -y python-configparser
+#RUN apt-get install -y python-crypto
+#RUN apt-get install -y python-crypto
+#RUN apt-get install -y python-enum34
+#RUN apt-get install -y python-ipaddress
+#RUN apt-get install -y python-six
+#RUN apt-get install -y python-cryptography
+#RUN apt-get install -y python-dbus
+#RUN apt-get install -y python-entrypoints
+#RUN apt-get install -y python-gi
+#RUN apt-get install -y python-secretstorage
+#RUN apt-get install -y python-keyring
+#RUN apt-get install -y python-keyrings.alt
+
 RUN apt-get install -y python-pip
 RUN apt-get install -y python-dev
 RUN apt-get install -y libpq-dev
+
+RUN apt-get install -y libmailutils5 
+#RUN apt-get install -y mailutils-common
+
+#RUN apt-get install -y exim4-config
+#RUN apt-get install -y exim4-base
+#RUN apt-get install -y exim4-daemon-light
+#RUN apt-get install -y libgc1c2
+#RUN apt-get install -y guile-2.2-libs
+#RUN apt-get install -y libntlm0
+#RUN apt-get install -y libgsasl7
+#RUN apt-get install -y libkyotocabinet16v5
+#RUN apt-get install -y libmailutils5
+#RUN apt-get install -y libwrap0
+#RUN apt-get install -y mailutils
+#RUN apt-get install -y psmisc
+
+RUN apt-get install -y cron
+#RUN apt-get install -y postgresql-client-11
+#RUN apt-get install -y libpopt0
+#RUN apt-get install -y logrotate
+#RUN apt-get install -y libc-l10n
+#RUN apt-get install -y locales
+#RUN apt-get install -y postgresql-11
+#RUN apt-get install -y distro-info-data
+#RUN apt-get install -y exim4-config
+#RUN apt-get install -y exim4-base
+#RUN apt-get install -y exim4-daemon-light
+#RUN apt-get install -y libgc1c2
+#RUN apt-get install -y guile-2.2-libs
+#RUN apt-get install -y libntlm0
+#RUN apt-get install -y libgsasl7
+#RUN apt-get install -y libkyotocabinet16v5
+#RUN apt-get install -y mailutils-common
+#RUN apt-get install -y libmailutils5
+#RUN apt-get install -y libwrap0
+#RUN apt-get install -y lsb-release
+#RUN apt-get install -y mailutils
+#RUN apt-get install -y postgresql-client-common
+#RUN apt-get install -y ssl-cert
+#RUN apt-get install -y postgresql-common
+#RUN apt-get install -y postgresql
+#RUN apt-get install -y psmisc
+#RUN apt-get install -y sysstat
+
 RUN apt-get install -y postgresql
 RUN apt-get install -y postgresql-contrib
 RUN apt-get install -y postgresql-client
 RUN apt-get install -y rabbitmq-server
 RUN apt-get install -y lighttpd
-RUN apt-get install -y fp-compiler fp-units-base fp-units-math
-RUN apt-get install -y texlive-latex-base
-RUN apt-get install -y texlive-lang-polish
-RUN apt-get install -y texlive-latex-extra
-RUN apt-get install -y texlive-fonts-recommended
-RUN apt-get install -y gcc-multilib
 
 RUN dpkg --add-architecture i386
 
@@ -28,3 +104,5 @@ RUN apt-get install -y libstdc++6:i386
 RUN apt-get install -y zlib1g:i386
 
 RUN apt-get install -y sudo
+
+RUN apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev
