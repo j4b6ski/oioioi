@@ -40,7 +40,7 @@ RUN pip install twisted --user
 
 ENV PATH $PATH:~/.local/bin/
 
-RUN oioioi-create-config /sio2/deployment
+RUN /bin/bash -c 'oioioi-create-config /sio2/deployment'
 
 WORKDIR /sio2/deployment
 
