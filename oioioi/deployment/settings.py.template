@@ -342,7 +342,7 @@ MIDDLEWARE_CLASSES += (
 )
 
 AUTHENTICATION_BACKENDS += (
-#    'oioioi.teachers.auth.TeacherAuthBackend',
+    'oioioi.teachers.auth.TeacherAuthBackend',
 #    'oioioi.ipdnsauth.backends.IpDnsBackend',
 )
 
