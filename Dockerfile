@@ -105,6 +105,7 @@ RUN sed -i -e \
         'oioioi.newsfeed',\
         'oioioi.simpleui',\
         'oioioi.livedata',\
+	'oioioi.rankings',\
         "\
         settings.py
 
