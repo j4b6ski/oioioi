@@ -49,7 +49,7 @@ RUN sed -i -e \
         s/'NAME': ''/'NAME': 'oioioi'/g;\
         s/'USER': ''/'USER': 'oioioi'/g;\
         s/'HOST': '',/'HOST': 'db',/g;\
-        s/'PASSWORD': ''/'PASSWORD': ''/g;\
+        s/'PASSWORD': ''/'PASSWORD': '12345'/g;\
         s/#BROKER_URL/BROKER_URL/g;\
         s/USE_UNSAFE_EXEC/#USE_UNSAFE_EXEC/g;\
         s/USE_LOCAL_COMPILERS/#USE_LOCAL_COMPILERS/g;\

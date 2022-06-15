@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: "oioioi"
-      POSTGRES_PASSWORD: ""
+      POSTGRES_PASSWORD: "12345"
       POSTGRES_DB: "oioioi"
   dev-web:
     command: /sio2/oioioi/oioioi_init.sh
