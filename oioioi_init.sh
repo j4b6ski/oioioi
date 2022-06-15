@@ -7,6 +7,9 @@ set -x
 mkdir -pv /sio2/logs/{supervisor,runserver,database}
 
 echo "LOG: Migrating databases"
+./manage.py migrate sites \
+       >/sio2/logs/database/migrate_sites.out \
+       2>/sio2/logs/database/migrate_sites.err
 ./manage.py migrate auth \
        >/sio2/logs/database/migrate_auth.out \
        2>/sio2/logs/database/migrate_auth.err
