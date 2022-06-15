@@ -42,4 +42,4 @@ services:
       - dev-db:db
       - dev-web:web
     deploy:
-      replicas: 10
+      replicas: 1
