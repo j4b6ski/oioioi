@@ -30,6 +30,7 @@ services:
     volumes:
       - $PWD:/sio2/oioioi
       - $PWD/logs:/sio2/logs
+      - $PWD/sandboxes:/sio2/sandboxes
     build:
       context: .
       dockerfile: Dockerfile.dev

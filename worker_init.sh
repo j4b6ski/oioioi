@@ -9,6 +9,10 @@ sudo apt install -y proot
 
 mkdir -pv /sio2/logs/{supervisor,runserver,database}
 
+echo "LOG: Downloading sandboxes"
+mkdir -pv /sio2/sandboxes
+./manage.py download_sandboxes -y -d /sio2/sandboxes
+
 echo "LOG: Launching worker at `hostname`"
 export FILETRACKER_URL="http://web:9999"
 twistd --nodaemon --pidfile=/home/oioioi/worker.pid \

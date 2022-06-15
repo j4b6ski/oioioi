@@ -117,5 +117,3 @@ RUN sed -i \
         -e "s|{{ PROJECT_DIR }}/logs|/sio2/logs|g"\
         -e "s|command=filetracker-server|command=/home/oioioi/.local/bin/filetracker-server|g"\
         supervisord.conf
-RUN mkdir /sio2/sandboxes
-RUN ./manage.py download_sandboxes -q -y -c /sio2/sandboxes
