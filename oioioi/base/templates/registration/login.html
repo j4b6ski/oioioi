@@ -2,32 +2,12 @@
 
 {% load i18n simple_filters %}
 
-{% block scripts %}
-    {{ block.super }}
-     <script src="https://www.google.com/recaptcha/api.js"></script>
-     <script>
-         function onSubmit(token) {
-             document.getElementById("login-form").submit();
-         }
-     </script>
-{% endblock scripts %}
-
-{% block styles %}
-     {{ block.super }}
-    <style>
-        .grecaptcha-badge {
-            z-index: 999999;
-            display: block;
-        }
-    </style>
-{% endblock styles %}
-
 {% block body %}
     <div class="row">
         {% block banner %}
         {% endblock %}
         <div class="well col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-            <form method="post" class="form-horizontal" id="login-form">
+            <form method="post" class="form-horizontal">
                 {% csrf_token %}
                 <div class="form-group">
                     <div class="text-center">
@@ -70,10 +50,9 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-8">
-                        <button class="btn btn-primary g-recaptcha"
-                            data-sitekey="{{grecaptcha_sitekey}}"
-                            data-callback='onSubmit'
-                            data-action='login'>{% trans "Log in" %}</button>
+                        <button id="id_submit" type="submit" class="btn btn-primary">
+                            {% trans "Log in" %}
+                        </button>
                     </div>
                 </div>
 

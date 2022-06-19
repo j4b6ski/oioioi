@@ -4,10 +4,6 @@
 
 {% block content %}
 <div class="text-center">
-    {% if exception %}
-        <p>{{exception}}</p>
-    {% else %}
-        <p>{% trans "403 &mdash; Sorry, but you're not allowed to see anything here. " %}</p>
-    {% endif %}
+    <p>{% trans "403 &mdash; Sorry, but you're not allowed to see anything here. " %}</p>
 </div>
 {% endblock %}
