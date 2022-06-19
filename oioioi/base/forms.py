@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collections import OrderedDict
 
 from django import forms
@@ -37,7 +36,6 @@ class RegistrationFormWithNames(RegistrationForm):
         ]
         if getattr(settings, 'RODO', False):
             fields.append(('rodo', forms.BooleanField(required=True, label=mark_safe(getattr(settings, 'RODO_TEXT', '')))))
-            fields.append(('regulamin', forms.BooleanField(required=True, label=mark_safe('Akceptuję <a href="/docs/regulamin">Regulamin</a> i <a href="/docs/polityka_prywatnosci">Politykę Prywatności</a>'))))
         self.fields = OrderedDict(fields)
 
 
