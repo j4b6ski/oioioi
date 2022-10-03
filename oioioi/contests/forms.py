@@ -58,10 +58,10 @@ class SimpleContestForm(forms.ModelForm):
         else:
             self._generate_default_dates()
 
-        old_choices = self.fields['controller_name'].choices
-        new_choices = old_choices[:1] + [(x, y) for (x, y) in old_choices[1:] if
-                getattr(import_string(x), 'visible', False)]
-        self.fields['controller_name'].choices = new_choices
+        #old_choices = self.fields['controller_name'].choices
+        #new_choices = old_choices[:1] + [(x, y) for (x, y) in old_choices[1:] if
+        #        getattr(import_string(x), 'visible', False)]
+        #self.fields['controller_name'].choices = new_choices
 
     def clean(self):
         cleaned_data = super(SimpleContestForm, self).clean()

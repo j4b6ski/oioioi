@@ -7,15 +7,19 @@ set -x
 mkdir -pv /sio2/logs/{supervisor,runserver,database}
 
 echo "LOG: Migrating databases"
-./manage.py migrate sites \
-       >/sio2/logs/database/migrate_sites.out \
-       2>/sio2/logs/database/migrate_sites.err
 ./manage.py migrate auth \
        >/sio2/logs/database/migrate_auth.out \
        2>/sio2/logs/database/migrate_auth.err
+./manage.py migrate sites \
+       >/sio2/logs/database/migrate_sites.out \
+       2>/sio2/logs/database/migrate_sites.err
+./manage.py makemigrations
 ./manage.py migrate \
        >/sio2/logs/database/migrate.out \
        2>/sio2/logs/database/migrate.err
+
+./manage.py makemigrations pd
+./manage.py migrate pd
 
 echo "LOG: loading test data"
 ./manage.py loaddata ../oioioi/oioioi_selenium/data.json
@@ -38,3 +42,5 @@ sleep 10
 ./manage.py runserver 0.0.0.0:8000 \
        > /sio2/logs/runserver/out.log \
        2> /sio2/logs/runserver/err.log
+
+export SIOWORKERSD_HOST='dev-worker'

@@ -183,14 +183,13 @@ LIBSASS_PRECISION = 8
 
 INSTALLED_APPS = (
     'oioioi.filetracker',
-    'oioioi.contests',
     'oioioi.problems',
     'oioioi.programs',
     'oioioi.sinolpack',
     'oioioi.questions',
     'oioioi.sioworkers',
-    'oioioi.jotform',
-    'oioioi.analytics',
+    #'oioioi.jotform',
+    #'oioioi.analytics',
     'oioioi.celery',
     'oioioi.status',
     'oioioi.su',
@@ -200,6 +199,7 @@ INSTALLED_APPS = (
     'oioioi.maintenancemode',
     'oioioi.evalmgr',
     'oioioi.workers',
+    'oioioi.contests',
 
     'djcelery',
     'kombu.transport.django',
@@ -223,6 +223,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+
+    'staszic.pd',
+    'staszic.tree',
 )
 
 AUTHENTICATION_BACKENDS = (

@@ -44,9 +44,7 @@ class Contest(models.Model):
     # The controller_name field is deliberately lacking default value. This
     # ensures that the contest type is explicitly set when persisting
     # an object to the database.
-    controller_name = DottedNameField(
-            'oioioi.contests.controllers.ContestController',
-            verbose_name=_("type"))
+    controller_name = models.CharField(max_length=512, verbose_name=_("type"))
     creation_date = models.DateTimeField(auto_now_add=True, editable=False,
             db_index=True, verbose_name=_("creation date"))
     default_submissions_limit = models.IntegerField(

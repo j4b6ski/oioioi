@@ -308,14 +308,14 @@ class ProblemInstanceAdmin(admin.ModelAdmin):
         assert ProblemSite.objects.filter(problem=instance.problem).exists()
         site_href = self._problem_site_href(instance)
         limits_href = self._reset_limits_href(instance)
-        config_limits_href = self._reload_limits_from_config_href(instance)
+        #config_limits_href = self._reload_limits_from_config_href(instance)
         reattach_href = self._reattach_problem_href(instance)
         result = [
             (move_href, self.probleminstance_change_link_name()),
             (models_href, _("Model solutions")),
             (site_href, _("Problem site")),
             (limits_href, _("Reset tests limits")),
-            (config_limits_href, _("Reload limits from config")),
+            #(config_limits_href, _("Reload limits from config")),
             (reattach_href, _("Attach to another contest"))
         ]
         problem_count = len(ProblemInstance.objects.filter(

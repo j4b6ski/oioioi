@@ -65,7 +65,7 @@ RUN sed -i -e \
         s/#USE_LOCAL_COMPILERS = True/USE_LOCAL_COMPILERS = False/g;\
         s/#USE_UNSAFE_CHECKER = True/USE_UNSAFE_CHECKER = False/g;\
         s/.*RUN_LOCAL_WORKERS = True/RUN_LOCAL_WORKERS = False/g;\
-        s/ALLOWED_HOSTS = \\[\\]/ALLOWED_HOSTS = \\['oioioi', '127.0.0.1', 'web'\\]/g"\
+        s/ALLOWED_HOSTS = \\[\\]/ALLOWED_HOSTS = \\['oioioi', 'localhost', '127.0.0.1', 'web'\\]/g"\
         -e "/INSTALLED_APPS =/a\
         'oioioi.contestlogo',\
         'oioioi.teachers',\

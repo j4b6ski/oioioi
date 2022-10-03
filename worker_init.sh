@@ -14,6 +14,7 @@ mkdir -pv /sio2/sandboxes
 ./manage.py download_sandboxes -y -d /sio2/sandboxes
 
 echo "LOG: Launching worker at `hostname`"
+export SIOWORKERSD_HOST="dev-worker"
 export FILETRACKER_URL="http://web:9999"
 twistd --nodaemon --pidfile=/home/oioioi/worker.pid \
         -l /sio2/logs/worker`hostname`.log worker \
