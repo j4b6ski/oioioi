@@ -271,6 +271,7 @@ REPLY_TEMPLATE_VISIBLE_NAME_LENGTH = 15
 PROBLEM_SOURCES = (
     'oioioi.problems.problem_sources.UploadedPackageSource',
     'oioioi.problems.problem_sources.ProblemsetSource',
+    'oioioi.problems.problem_sources.Probset2Source',
 )
 
 PROBLEM_PACKAGE_BACKENDS = (

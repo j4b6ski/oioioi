@@ -1,4 +1,7 @@
+import contextlib
 import logging
+import requests
+import tempfile
 
 from django.conf import settings
 from django.db import transaction
@@ -18,7 +21,7 @@ from oioioi.contests.utils import is_contest_admin
 from oioioi.problems.package import backend_for_package
 from oioioi.problems.unpackmgr import unpackmgr_job
 from oioioi.problems.models import ProblemPackage, Problem
-from oioioi.problems.forms import PackageUploadForm, ProblemsetSourceForm
+from oioioi.problems.forms import PackageUploadForm, ProblemsetSourceForm, Probset2Form
 from oioioi.problems.utils import update_tests_from_main_pi, \
         get_new_problem_instance
 
@@ -232,6 +235,33 @@ class UploadedPackageSource(PackageSource):
     def get_package_file(self, request, contest, form, existing_problem=None):
         package_file = request.FILES['package_file']
         return package_file.name, uploaded_file_name(package_file)
+
+PROBSET2_URL="https://wwi.bartmin.ski"
+
+class Probset2Source(PackageSource):
+    key = 'probset2_source'
+    short_description = _('Add from Staszic Probset')
+
+    def make_form(self, request, contest, existing_problem=None):
+        r = requests.get(PROBSET2_URL + "/problems")
+        probset_keys = [(id, details['name']) for id, details in r.json().items()]
+        if request.method == 'POST':
+            return Probset2Form(contest, existing_problem, probset_keys, request.POST)
+        else:
+            return Probset2Form(contest, existing_problem, probset_keys)
+
+    def get_package_file(self, request, contest, form, existing_problem=None):
+        problem_id = request.POST['probset2_package']
+        package_file = requests.get(PROBSET2_URL + "/problems/" + problem_id)
+
+        with tempfile.NamedTemporaryFile(delete=False) as fp:
+            fp.write(package_file.content)
+            @contextlib.contextmanager
+            def magic():
+                yield fp.name
+
+        return problem_id + ".tgz", magic()
+        # TODO(later): remember to add probset key to Package model!!
 
 
 class ProblemsetSource(ProblemSource):

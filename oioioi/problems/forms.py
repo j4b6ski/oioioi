@@ -38,6 +38,14 @@ class PackageUploadForm(ProblemUploadForm):
     package_file = forms.FileField(label=_("Package file"))
 
 
+class Probset2Form(ProblemUploadForm):
+    probset2_package = forms.ChoiceField(label=_("Choose problem"))
+
+    def __init__(self, contest, existing_problem, probset_keys, *args, **kwargs):
+        super(Probset2Form, self).__init__(contest, existing_problem, *args, **kwargs)
+        self.fields['probset2_package'].choices = probset_keys
+
+
 class ProblemStatementConfigForm(forms.ModelForm):
     class Meta(object):
         fields = '__all__'
